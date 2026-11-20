@@ -1,28 +1,16 @@
 node_modules/
-
-# Environment variables
+web/dist/
+web/dist-e2e/
+api/data/
 .env
-.env.*
-!.env.example
-
-# Logs
-logs/
+api/.env
+web/.env
+test-results/
+playwright-report/
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-
-# Coverage and build output
-coverage/
-dist/
-build/
-
-# Temporary files
-tmp/
-temp/
-*.tmp
-
-# OS files
-.DS_Store
-Thumbs.db
+*.zip
+api/reports/*checkpoint.json
+api/certs/*.crt
+api/certs/*.pem
+__pycache__/
+NOP_BAI_NHOM_4/

@@ -1,0 +1,36 @@
+{
+  "source": "kaggle:pes12017000148/food-ingredients-and-recipe-dataset-with-images:v1",
+  "license": "CC BY-SA 3.0 (Kaggle metadata verified 2026-10-30)",
+  "fileSha256": "d0e3977da7c1dc287ed75d6770f4064a7caeaa20ef6f64708b730e02f4d5f17a",
+  "batch": "kaggle-v1-d0e3977da7c1dc28",
+  "totalRows": 13501,
+  "validRows": 13493,
+  "invalidRows": 8,
+  "duplicateRows": 0,
+  "mode": "commit",
+  "inserted": 13493,
+  "alreadyPresent": 0,
+  "ingredientRecords": 73940,
+  "linkedIngredients": 146486,
+  "skippedIngredientNames": 767,
+  "imagesImported": 0,
+  "mapping": {
+    "Title": "name",
+    "Instructions": "description (first 2000 chars) + recipeInstructions (complete)",
+    "Cleaned_Ingredients": "recipeIngredients + ingredients if length <=120",
+    "Image_Name": "retained in import source; no imageUrl without actual images"
+  },
+  "syntheticFields": {
+    "price": "0 placeholder, syntheticPrice=true; UI displays Chưa định giá",
+    "category": "unclassified placeholder, syntheticCategory=true",
+    "chefId": "null; no fabricated chef",
+    "unit": "Không nêu trong nguồn; no inferred quantity"
+  },
+  "notes": [
+    "Image directory is configured; images are handled by the separate images:kaggle command.",
+    "Import never updates existing rows. Missing images remain null.",
+    "No upstream dataset CSV or images are bundled in the submission ZIP by default."
+  ],
+  "completedAt": "2026-10-30T03:47:26.090Z",
+  "status": "completed"
+}

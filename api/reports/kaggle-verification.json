@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-10-30T04:26:15.411Z",
+  "readOnly": true,
+  "databaseTlsVerified": true,
+  "counts": {
+    "recipes": 13493,
+    "images": 13463,
+    "missing_images": 30,
+    "ingredients": 73940,
+    "ingredient_links": 146486,
+    "original_recipes_table_rows": 0,
+    "assigned_chefs": 13493,
+    "missing_chef_references": 0,
+    "unflagged_placeholders": 0,
+    "missing_search_vectors": 0,
+    "duplicate_source_ids": 0
+  },
+  "storage": {
+    "objects": 13463,
+    "bytes": "210282611"
+  },
+  "api": {
+    "source": "supabase",
+    "pageSize": 6,
+    "disjointPages": true,
+    "detailIngredients": 17,
+    "detailChef": true,
+    "fullTextResults": 864,
+    "fuzzyResults": 1534,
+    "automaticFuzzyFallback": true,
+    "combinedAdminFilters": true,
+    "priceFilterVerified": true,
+    "facets": true
+  },
+  "publicImages": [
+    {
+      "status": 200,
+      "contentType": "image/jpeg"
+    },
+    {
+      "status": 200,
+      "contentType": "image/jpeg"
+    },
+    {
+      "status": 200,
+      "contentType": "image/jpeg"
+    }
+  ]
+}

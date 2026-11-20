@@ -1,0 +1,56 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-10-30T04:26:24.454Z",
+  "chefs": 8,
+  "assignedDishes": 13493,
+  "auditedAssignments": 13493,
+  "distribution": [
+    {
+      "id": "1",
+      "name": "Nguyễn Hoàng Lan (demo)",
+      "dishes": 3146
+    },
+    {
+      "id": "2",
+      "name": "Trần Minh Khang (demo)",
+      "dishes": 796
+    },
+    {
+      "id": "3",
+      "name": "Lê Thanh Hải (demo)",
+      "dishes": 776
+    },
+    {
+      "id": "4",
+      "name": "Phạm Anh Tuấn (demo)",
+      "dishes": 1272
+    },
+    {
+      "id": "5",
+      "name": "Võ Ngọc Linh (demo)",
+      "dishes": 1880
+    },
+    {
+      "id": "6",
+      "name": "Đặng Gia Bảo (demo)",
+      "dishes": 1149
+    },
+    {
+      "id": "7",
+      "name": "Bùi Quốc An (demo)",
+      "dishes": 4125
+    },
+    {
+      "id": "8",
+      "name": "Huỳnh Thảo Vy (demo)",
+      "dishes": 349
+    }
+  ],
+  "checks": {
+    "apiChefFilter": true,
+    "dishDetailChef": true,
+    "chefDetailLink": true,
+    "browserAdminChefFilter": true,
+    "ingredientsPreserved": true
+  }
+}

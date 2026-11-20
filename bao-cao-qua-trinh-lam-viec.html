@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="light">
+  <title>Nhóm 4 — Báo cáo quá trình ứng dụng AI — Bếp Nhà</title>
+  <style>
+    :root { --ink:#17251f; --muted:#59665f; --green:#245543; --paper:#fff; --line:#d4ddd7; --tint:#f0f5f1; --accent:#a34a2e; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:#e8ede9; color:var(--ink); font:15px/1.8 Arial,Helvetica,sans-serif; }
+    .toolbar { position:sticky; top:0; z-index:10; padding:12px max(20px,calc((100vw - 980px)/2)); display:flex; justify-content:space-between; align-items:center; gap:16px; background:#17251f; color:#fff; font-size:13px; }
+    .toolbar-actions { display:flex; gap:8px; flex-shrink:0; }
+    button { border:1px solid #fff; background:#fff; color:#17251f; font:600 12px Arial,Helvetica,sans-serif; padding:10px 14px; border-radius:4px; cursor:pointer; }
+    button.secondary { background:transparent; color:#fff; }
+    button:hover { background:#e2ede5; color:#17251f; }
+    button:focus-visible, input:focus-visible, a:focus-visible { outline:3px solid #d18b4a; outline-offset:3px; }
+    .report { width:min(980px,calc(100% - 40px)); margin:28px auto 50px; padding:66px 76px; background:var(--paper); box-shadow:0 10px 50px #17251f12; }
+    .cover { padding-bottom:35px; border-bottom:3px solid var(--green); }
+    .eyebrow { font-size:11px; font-weight:700; letter-spacing:2px; color:var(--green); text-transform:uppercase; margin:0 0 28px; }
+    .cover h1 { font:700 40px/1.35 Arial,Helvetica,sans-serif; margin:0 0 18px; letter-spacing:-.8px; }
+    .cover h1 span { display:block; color:var(--green); }
+    .subtitle { font-size:17px; color:var(--muted); margin:0 0 26px; }
+    .tag { display:inline-block; padding:4px 10px; font-size:11px; font-weight:700; letter-spacing:.7px; border:1px solid #a8bdae; background:var(--tint); margin:0 6px 8px 0; }
+    .student-info { display:grid; grid-template-columns:1fr 1fr; gap:13px 28px; margin-top:26px; }
+    .student-info label { display:block; font-size:12px; font-weight:600; }
+    .student-info input { display:block; width:100%; border:0; border-bottom:1px solid #a1afa6; padding:7px 0; border-radius:0; background:transparent; color:var(--ink); font:14px Arial,Helvetica,sans-serif; }
+    .team-table { margin-top:22px; font-size:14px; }
+    .team-table th:first-child { width:12%; }
+    .team-table th:last-child { width:30%; }
+    .team-table caption { text-align:left; font-size:12px; font-weight:700; margin-bottom:8px; color:var(--green); }
+    .date { margin:24px 0 0; font-size:12px; color:var(--muted); }
+    .intro { margin-top:28px; }
+    .note { border-left:3px solid var(--green); padding:13px 17px; background:var(--tint); font-size:13px; margin:20px 0; }
+    .note p { margin:0; }
+    h2 { display:flex; gap:12px; align-items:baseline; font:700 25px/1.5 Arial,Helvetica,sans-serif; margin:42px 0 18px; }
+    h2 .number { color:var(--accent); font:700 12px Arial,Helvetica,sans-serif; letter-spacing:1px; flex-shrink:0; }
+    h3 { font-size:16px; line-height:1.5; margin:25px 0 10px; }
+    p { margin:0 0 13px; }
+    a { color:var(--green); text-underline-offset:3px; overflow-wrap:anywhere; }
+    ul,ol { padding-left:22px; margin:10px 0 18px; }
+    li { margin-bottom:6px; }
+    strong { font-weight:700; }
+    code { font:12px/1.65 Consolas,"Courier New",monospace; background:#edf2ee; padding:2px 5px; border-radius:3px; overflow-wrap:anywhere; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; background:#17251f; color:#f2f7f3; border-radius:4px; padding:17px 20px; font:12px/1.8 Consolas,"Courier New",monospace; margin:15px 0 20px; }
+    pre code { background:transparent; color:inherit; padding:0; }
+    table { width:100%; border-collapse:collapse; font-size:12px; margin:16px 0 22px; }
+    th { text-align:left; background:#e9f0eb; color:#244a38; font-weight:700; }
+    th,td { padding:10px 11px; border:1px solid var(--line); vertical-align:top; overflow-wrap:anywhere; }
+    th:first-child { width:24%; }
+    .toc { border:1px solid var(--line); padding:20px 25px; margin:28px 0; background:#fafcfb; }
+    .toc h2 { margin:0 0 10px; font:600 14px Arial,Helvetica,sans-serif; }
+    .toc ol { columns:2; column-gap:30px; margin:0; font-size:12px; }
+    .toc li { break-inside:avoid; }
+    .stage { border-top:1px solid var(--line); padding-top:20px; margin-top:23px; }
+    .stage-heading { display:flex; gap:13px; align-items:flex-start; }
+    .step { display:grid; place-items:center; width:30px; height:30px; background:var(--green); color:#fff; border-radius:50%; font-size:11px; flex-shrink:0; margin-top:1px; }
+    .stage h3 { margin:0 0 12px; }
+    .prompt { background:#f5f2eb; border:1px solid #e4dac9; border-left:3px solid #a97540; padding:12px 16px; margin:0 0 13px; font-size:13px; }
+    .prompt-label { display:block; color:#815326; font-size:9px; letter-spacing:1.4px; font-weight:700; text-transform:uppercase; margin-bottom:4px; }
+    .stage p, .stage li { font-size:13px; }
+    .stage ul { margin-bottom:12px; }
+    .result { color:var(--green); }
+    .architecture { border:1px solid var(--line); padding:22px 16px 15px; margin:18px 0; background:#fafcfb; }
+    .architecture svg { display:block; width:100%; height:auto; }
+    .architecture figcaption { font-size:11px; color:var(--muted); text-align:center; margin-top:14px; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:20px 0; }
+    .stat { border:1px solid var(--line); padding:17px; text-align:center; background:var(--tint); }
+    .stat strong { display:block; font:700 30px Arial,Helvetica,sans-serif; color:var(--green); }
+    .stat span { display:block; font-size:11px; margin-top:5px; }
+    .small { font-size:12px; color:var(--muted); }
+    .footer { border-top:1px solid var(--line); padding-top:18px; margin-top:40px; display:flex; justify-content:space-between; gap:20px; font-size:11px; color:var(--muted); }
+    .break-before { scroll-margin-top:85px; }
+    @media(max-width:700px) { .report { padding:32px 24px; width:calc(100% - 20px); margin-top:12px; }.cover h1 { font-size:31px; }.toolbar { position:static; flex-direction:column; align-items:flex-start; }.student-info { grid-template-columns:1fr; }.toc ol { columns:1; }h2 { font-size:23px; }.stats { gap:7px; }.stat { padding:12px 6px; }th,td { padding:8px; }table { font-size:11px; } }
+    @page { size:A4; margin:18mm 17mm; }
+    @media print {
+      body { background:white; font-size:10.5pt; line-height:1.65; color:#111; }
+      .toolbar { display:none; }.report { width:100%; margin:0; padding:0; box-shadow:none; }
+      .cover { padding-top:8mm; padding-bottom:8mm; break-inside:avoid; }.cover h1 { font-size:29pt; }.eyebrow { font-size:9pt; }.subtitle { font-size:13pt; }
+      .team-table { font-size:10pt; }.team-table th,.team-table td { padding:6px 10px; }
+      .student-info input { font-size:10.5pt; }.date { font-size:9pt; }
+      h2 { font-size:18pt; break-after:avoid; margin-top:22pt; }h3 { break-after:avoid; }
+      .break-before { break-before:page; }.stage-heading,.prompt,.note,.stats,.architecture,tr { break-inside:avoid; }
+      .stage p,.stage li,.prompt { font-size:10pt; }table { font-size:9pt; }thead { display:table-header-group; }
+      pre { color:#111; background:#f2f2f2; border:1px solid #aaa; font-size:9pt; }
+      a { color:inherit; }.toc a { text-decoration:none; }.small,.architecture figcaption { font-size:8.5pt; }
+      * { print-color-adjust:exact; -webkit-print-color-adjust:exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar" aria-label="Công cụ báo cáo">
+    <span>Báo cáo Nhóm 4 · Có thể lưu HTML hoặc in thành PDF.</span>
+    <div class="toolbar-actions"><button class="secondary" type="button" id="save-html">Lưu bản HTML</button><button type="button" id="print-report">In / Lưu PDF</button></div>
+  </div>
+  <main class="report">
+    <header class="cover">
+      <p class="eyebrow">Môn Phát triển ứng dụng web · Block 6 · Nhóm 4</p>
+      <h1>Báo cáo quá trình làm việc<span>Ứng dụng AI qua prompt</span></h1>
+      <p class="subtitle">Đề tài: Bếp Nhà — ứng dụng nhà hàng với REST API và SPA</p>
+      <div><span class="tag">PROMPT → TRIỂN KHAI → PHẢN HỒI → KIỂM THỬ</span><span class="tag">REACT · EXPRESS · SUPABASE</span></div>
+      <div class="student-info">
+        <label>Nhóm thực hiện<input name="group" aria-label="Nhóm thực hiện" value="Nhóm 4"></label>
+        <label>Giảng viên<input name="lecturer" aria-label="Giảng viên" value="ThS. Ngô Ngọc Đăng Khoa"></label>
+      </div>
+      <table class="team-table">
+        <caption>THÀNH VIÊN NHÓM 4</caption>
+        <thead><tr><th scope="col">STT</th><th scope="col">Họ và tên</th><th scope="col">Mã số sinh viên</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Trần Cao Danh</td><td>24127341</td></tr>
+          <tr><td>2</td><td>Nguyễn Gia</td><td>24127357</td></tr>
+          <tr><td>3</td><td>Đỗ Vĩnh Kỳ</td><td>24127434</td></tr>
+          <tr><td>4</td><td>Huỳnh Thái Hòa</td><td>24127374</td></tr>
+        </tbody>
+      </table>
+      <p class="date">Ngày lập báo cáo: 23/10/2026 · Công cụ hỗ trợ: Codex (AI coding agent)</p>
+    </header>
+
+    <div class="intro">
+      <p>Nhóm 4 trình bày quá trình sử dụng AI để xây dựng ứng dụng nhà hàng theo yêu cầu bài tập. Quá trình được tổ chức thành các vòng: xác định yêu cầu, tạo prompt, yêu cầu AI triển khai, xem xét kết quả, phản hồi và kiểm tra lại. AI hỗ trợ tạo prompt, viết mã, tích hợp thư viện và chạy các công cụ kiểm thử; nhóm đưa yêu cầu, cung cấp cấu hình dịch vụ và điều chỉnh kết quả qua các prompt tiếp theo.</p>
+      <div class="note"><p><strong>Phạm vi ghi nhận:</strong> chỉ tổng hợp các trao đổi phục vụ phân tích đề, xây dựng, sửa lỗi và hoàn thiện sản phẩm. Không đưa các câu hỏi ôn bài, luyện trả lời vấn đáp hoặc hướng dẫn sử dụng IDE vào nhật ký. Các prompt trong báo cáo được <strong>biên tập, rút gọn theo nội dung trao đổi thực tế</strong>, không phải bản chép nguyên văn toàn bộ hội thoại.</p></div>
+    </div>
+
+    <nav class="toc" aria-label="Mục lục">
+      <h2>MỤC LỤC</h2>
+      <ol>
+        <li><a href="#muc-tieu">Mục tiêu và phạm vi bài tập</a></li>
+        <li><a href="#phuong-phap">Phương pháp sử dụng AI</a></li>
+        <li><a href="#nhat-ky">Nhật ký prompt và kết quả</a></li>
+        <li><a href="#kien-truc">Kiến trúc và thư viện sử dụng</a></li>
+        <li><a href="#kiem-thu">Kiểm thử và xác minh kết quả</a></li>
+        <li><a href="#danh-gia">Đánh giá quá trình và hạn chế</a></li>
+        <li><a href="#ban-giao">Sản phẩm bàn giao và cách chạy</a></li>
+        <li><a href="#mo-rong-catalog">Bổ sung 30/10: phân trang, tìm kiếm và Kaggle</a></li>
+      </ol>
+    </nav>
+
+    <section id="muc-tieu">
+      <h2><span class="number">01</span>Mục tiêu và phạm vi bài tập</h2>
+      <p>Đề bài yêu cầu xây dựng hai ứng dụng độc lập: backend cung cấp REST API và frontend là SPA chạy trong trình duyệt. Hai ứng dụng chạy ở hai origin khác nhau, quản lý ba tài nguyên: món ăn, đầu bếp và nguyên liệu.</p>
+      <table>
+        <thead><tr><th>Hạng mục</th><th>Yêu cầu được đưa vào prompt</th></tr></thead>
+        <tbody>
+          <tr><td>REST API</td><td>Danh sách, chi tiết, thêm, sửa bằng PATCH và xóa bằng DELETE cho cả ba tài nguyên.</td></tr>
+          <tr><td>Response và lỗi</td><td>Thống nhất <code>ok/data/error</code>; lỗi nghiệp vụ trả HTTP 200 với <code>NOT_FOUND</code> hoặc <code>VALIDATION_FAILED</code>; sai route trả 404, lỗi hệ thống trả 500.</td></tr>
+          <tr><td>SPA</td><td>Trang người dùng và quản trị; tìm kiếm bằng query <code>q</code>; điều hướng không tải lại document; mở thẳng hoặc Reload ở URL con hoạt động.</td></tr>
+          <tr><td>Form và trạng thái</td><td>Loading, lỗi kỹ thuật, không tìm thấy, danh sách rỗng; lỗi cạnh trường nhập, giữ giá trị khi lỗi; khóa submit khi đang gửi; trang xác nhận xóa.</td></tr>
+          <tr><td>Tích hợp</td><td>CORS đúng origin; mỗi trang tự tải dữ liệu; lớp gọi API dùng chung; secret chỉ nằm ở backend.</td></tr>
+          <tr><td>Bổ sung theo phản hồi</td><td>Dùng dữ liệu Supabase đã có, hiển thị ảnh thật và đầu bếp/nguyên liệu liên quan trong chi tiết món ăn.</td></tr>
+        </tbody>
+      </table>
+      <p class="small">Tài liệu đề bài: <a href="https://pub.nndkhoa9.win/web/week4/block6-deck.html">Slide Block 6 — REST API và SPA</a>, phần bài tập và nghiệm thu ở slide 41–52. Các chức năng ảnh và quan hệ món ăn được bổ sung theo yêu cầu trong quá trình làm.</p>
+    </section>
+
+    <section id="phuong-phap">
+      <h2><span class="number">02</span>Phương pháp sử dụng AI</h2>
+      <p>Sinh viên trước tiên yêu cầu AI đọc slide và trình bày lại bài tập. Từ đó, sinh viên yêu cầu AI soạn một prompt triển khai có vai trò, quy tắc chọn thư viện, đặc tả API, yêu cầu frontend và tiêu chí nghiệm thu. Prompt này được bổ sung yêu cầu đọc tài liệu Markdown trước khi sửa frontend, rồi được sử dụng để giao AI triển khai trực tiếp trong workspace.</p>
+      <pre><code>Vai trò: Senior Full-stack Engineer.
+Nhiệm vụ: kiểm tra repository, triển khai ứng dụng và kiểm thử.
+Ưu tiên: mã có sẵn → framework → thư viện phù hợp → code riêng cần thiết.
+Ràng buộc: bám theo slide, đọc tài liệu .md, giữ secret ở backend.
+Đầu ra: mã nguồn chạy được, cấu hình mẫu, hướng dẫn và kết quả kiểm tra.</code></pre>
+      <table>
+        <thead><tr><th>Vai trò</th><th>Công việc trong quá trình thực hiện</th></tr></thead>
+        <tbody>
+          <tr><td>Sinh viên</td><td>Đưa đề bài, yêu cầu tạo prompt, cung cấp thông tin Supabase, nhập key vào môi trường local, nhận xét giao diện và yêu cầu chức năng bổ sung.</td></tr>
+          <tr><td>AI</td><td>Hỗ trợ phân tích, soạn prompt, lựa chọn và tích hợp thư viện, viết mã nghiệp vụ, sửa lỗi, chạy build/test và báo cáo kết quả.</td></tr>
+          <tr><td>Căn cứ đối chiếu</td><td>Yêu cầu từ slide, file Markdown, mã nguồn, kết quả chạy công cụ và dữ liệu Supabase được đọc thực tế.</td></tr>
+        </tbody>
+      </table>
+      <p>Việc AI tạo mã không được coi là bằng chứng đã hoàn thành. Sau mỗi thay đổi đáng kể, AI được yêu cầu kiểm tra lại và ghi rõ kết quả nào đã xác minh, kết quả nào còn phụ thuộc cấu hình hoặc dữ liệu thật.</p>
+      <p class="small">Báo cáo ghi nhận hoạt động ở cấp nhóm theo lịch sử làm việc chung; không tự gán nhiệm vụ riêng, tỷ lệ đóng góp hoặc số giờ cho từng thành viên khi chưa có thông tin xác nhận.</p>
+    </section>
+
+    <section id="nhat-ky" class="break-before">
+      <h2><span class="number">03</span>Nhật ký prompt và kết quả</h2>
+      <p class="small">Các giai đoạn dưới đây theo thứ tự trao đổi thực tế. Không gán thời lượng hoặc thời điểm riêng cho từng giai đoạn khi hội thoại không cung cấp thông tin đó.</p>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">01</span><h3>Đọc slide và xác định yêu cầu</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Đọc slide để nắm thông tin và bài tập, sau đó trình bày lại yêu cầu.</blockquote>
+        <p><strong>AI thực hiện:</strong> đọc nội dung 55 slide, tách phần kiến thức nền và các yêu cầu triển khai: ba tài nguyên, CRUD, response shape, CORS, routing, form, trạng thái và tiêu chí nghiệm thu.</p>
+        <p class="result"><strong>Kết quả:</strong> có đặc tả làm căn cứ cho prompt triển khai; nhận diện quy ước riêng của môn học về lỗi nghiệp vụ HTTP 200.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">02</span><h3>Soạn prompt ưu tiên thư viện và dịch vụ có sẵn</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Đóng vai chuyên gia prompt, tạo prompt yêu cầu AI ưu tiên thư viện và dịch vụ có sẵn thay vì tự code; dựng các rule theo slide.</blockquote>
+        <p><strong>AI thực hiện:</strong> soạn prompt gồm nguyên tắc tái sử dụng, kiểm tra project, kiến trúc, REST contract, frontend, form, kiểm thử và bàn giao. Chỉ cho phép code riêng khi phục vụ nghiệp vụ hoặc tích hợp.</p>
+        <p class="result"><strong>Kết quả:</strong> hình thành prompt triển khai có phạm vi và tiêu chí rõ ràng, thay cho yêu cầu chung “làm một website nhà hàng”.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">03</span><h3>Bổ sung quy tắc đọc Markdown và triển khai ứng dụng</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Bổ sung quy tắc frontend phải đọc các file .md. Dùng prompt hoàn chỉnh để kiểm tra repository và triển khai bài tập.</blockquote>
+        <p><strong>AI thực hiện:</strong> kiểm tra workspace, đọc <code>frontend_aesthetics_prompt.md</code>. Thư mục lúc đầu chưa có backend nền/model/seed, nên AI tạo cấu trúc <code>api</code>, <code>web</code>, <code>shared</code> và chọn SQLite làm database local ban đầu.</p>
+        <p>AI tích hợp Express, cors, React Router, React Hook Form, Zod, Radix Themes và Lucide; xây CRUD cho ba tài nguyên và kiểm thử bằng Supertest/Playwright. Frontend có phong cách nhà hàng tông kem, đỏ gạch, xanh olive.</p>
+        <p class="result"><strong>Kết quả:</strong> ứng dụng có thể chạy local, frontend/backend độc lập, có dữ liệu lưu thật trên SQLite. Đây là giải pháp khởi đầu do AI lựa chọn khi chưa có thông tin về Supabase; kiến trúc dữ liệu cuối cùng được điều chỉnh ở giai đoạn 07.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">04</span><h3>Điều chỉnh giao diện qua phản hồi</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Đổi phong cách theo tương phản trắng–đen. Sau khi xem kết quả, làm rõ: vẫn giữ màu sắc, chỉ cần viền trắng–đen tương phản.</blockquote>
+        <p><strong>Vấn đề:</strong> AI hiểu yêu cầu đầu tiên thành chuyển toàn bộ giao diện sang đơn sắc, bao gồm minh họa món ăn. Kết quả chưa đúng ý định của sinh viên.</p>
+        <p><strong>AI sửa:</strong> khôi phục màu kem, đỏ gạch, xanh olive và vàng cát; dùng viền đen/trắng cho khối, thẻ, nút và focus. Đồng thời cập nhật quy tắc giao diện trong <code>web/README.md</code>.</p>
+        <p class="result"><strong>Kết quả:</strong> giữ màu sắc của sản phẩm, tăng độ rõ của đường viền. Đây là một vòng phản hồi để sửa cách AI diễn giải prompt, không chỉ sửa cú pháp mã nguồn.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">05</span><h3>Rà soát việc sử dụng thư viện</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Kiểm tra xem ứng dụng đã ưu tiên thư viện thay vì tự code chưa.</blockquote>
+        <p><strong>AI thực hiện:</strong> đối chiếu dependency với các import và chỗ sử dụng thực tế. Xác nhận đã dùng thư viện cho routing, form, validation, component cơ bản, CORS và kiểm thử.</p>
+        <p><strong>Điểm chưa triệt để:</strong> input/textarea/checkbox và bảng vẫn có phần HTML tự dựng; hook tải dữ liệu, adapter API và CSS cũng do AI viết. AI ghi nhận rõ các phần này thay vì khẳng định toàn bộ giao diện đều là component thư viện.</p>
+        <p class="result"><strong>Kết quả:</strong> phân biệt được “cài thư viện” với “thư viện đang được dùng”, đồng thời xác định phần code riêng còn tồn tại.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">06</span><h3>Cung cấp dữ liệu Supabase và chuẩn bị cấu hình</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Đã có dữ liệu trên Supabase; tạo file .env để tự điền URL và key.</blockquote>
+        <p><strong>AI thực hiện:</strong> tạo <code>api/.env</code> cùng các biến cấu hình mẫu; xác nhận file môi trường được loại trừ trong <code>.gitignore</code>. Sinh viên tự nhập thông tin kết nối, không đưa giá trị key vào báo cáo.</p>
+        <p class="result"><strong>Kết quả:</strong> có cấu hình backend riêng. Việc tạo file môi trường mới chỉ chuẩn bị thông tin, chưa có nghĩa backend đã tự động chuyển sang Supabase.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">07</span><h3>Chuyển backend sang Supabase SDK</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Chỉnh sửa để backend sử dụng dữ liệu Supabase.</blockquote>
+        <p><strong>AI thực hiện:</strong> cài <code>@supabase/supabase-js</code>; tách lớp storage, chuyển CRUD sang SDK chính thức, hỗ trợ tên bảng/schema qua cấu hình và ID số nguyên hoặc UUID. Giữ Express REST API ở giữa frontend và Supabase.</p>
+        <p>Backend mặc định dùng Supabase; nếu thiếu cấu hình sẽ báo lỗi thay vì âm thầm trả dữ liệu mẫu. SQLite được giữ cho test/local khi chủ động chọn driver tương ứng. Không tự seed hoặc migrate dữ liệu thật trên Supabase.</p>
+        <p class="result"><strong>Kết quả:</strong> thay đổi nguồn dữ liệu mà vẫn giữ contract API và các luồng sử dụng của frontend.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">08</span><h3>Chẩn đoán lỗi kết nối và xác minh dữ liệu thật</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Kiểm tra key đã có chưa; xử lý lỗi “SUPABASE_URL phải dùng HTTP hoặc HTTPS”; chạy lại kiểm tra kết nối.</blockquote>
+        <p><strong>Vấn đề:</strong> có lúc file chưa có key đã lưu; có lúc <code>SUPABASE_URL</code> được điền bằng connection string <code>postgresql://…</code> thay vì Project URL dạng HTTPS.</p>
+        <p><strong>AI sửa:</strong> công cụ do AI điều khiển đọc cấu hình local để kiểm tra và kết nối, chỉ hiển thị trạng thái có/chưa có key, không in giá trị secret. AI nhận diện project reference từ connection string phù hợp để sửa Project URL, giữ chuỗi kết nối gốc ở biến backend riêng. Lệnh <code>check:supabase</code> đã được bổ sung ở giai đoạn tích hợp và được dùng lại để kiểm tra chỉ đọc.</p>
+        <p class="result"><strong>Kết quả tại thời điểm xác minh:</strong> đọc được 6 món ăn, 3 đầu bếp và 10 nguyên liệu; không có bản ghi không khớp cấu trúc ứng dụng trong lần kiểm tra đó.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">09</span><h3>Khắc phục thiếu ảnh món ăn</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung phản hồi — rút gọn</span>Ảnh món ăn chưa hiển thị; kiểm tra và bổ sung ảnh thật.</blockquote>
+        <p><strong>Vấn đề:</strong> ban đầu frontend hiển thị minh họa CSS. Kiểm tra dữ liệu thật cho thấy cả 6 món đã có <code>imageUrl</code>, nhưng API chưa chọn trường này nên ảnh không được truyền đến frontend.</p>
+        <p><strong>AI sửa:</strong> bổ sung <code>imageUrl</code> vào truy vấn, schema dữ liệu đọc và kiểu frontend; thay minh họa bằng thẻ ảnh ở danh sách/chi tiết, có alt, lazy loading ở danh sách và trạng thái thay thế khi thiếu hoặc lỗi ảnh.</p>
+        <p class="result"><strong>Kết quả:</strong> frontend có thể hiển thị ảnh thật từ dữ liệu Supabase. Kiểm thử trình duyệt xác minh ảnh nhận từ API và trường hợp ảnh lỗi; đây là kiểm thử với response/ảnh giả lập, không được xem là xác nhận mọi URL ảnh thật luôn truy cập được.</p>
+      </article>
+
+      <article class="stage">
+        <div class="stage-heading"><span class="step">10</span><h3>Bổ sung đầu bếp và nguyên liệu trong chi tiết món ăn</h3></div>
+        <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Khi nhấp vào chi tiết món ăn, hiển thị ai là đầu bếp và các nguyên liệu tạo thành món.</blockquote>
+        <p><strong>AI thực hiện:</strong> kiểm tra quan hệ đã có trong Supabase, dùng nested select của SDK để lấy đầu bếp và nguyên liệu liên quan. Không tự gán tất cả nguyên liệu cho mọi món hoặc tạo quan hệ giả.</p>
+        <p>Trang chi tiết có “Đầu bếp phụ trách” gồm tên/chuyên môn và “Nguyên liệu tạo thành” gồm tên/đơn vị; mỗi mục có link sang trang chi tiết tương ứng. Khi chưa có liên kết, giao diện hiển thị trạng thái chưa cập nhật.</p>
+        <p class="result"><strong>Kết quả:</strong> kiểm tra chỉ đọc qua API xác nhận cả 6 món thật đều có đầu bếp và danh sách nguyên liệu. Build, 10 test API và 15 test trình duyệt đạt ở lần xác minh cuối của giai đoạn triển khai này.</p>
+      </article>
+    </section>
+
+    <section id="kien-truc" class="break-before">
+      <h2><span class="number">04</span>Kiến trúc và thư viện sử dụng</h2>
+      <figure class="architecture">
+        <svg viewBox="0 0 760 150" role="img" aria-labelledby="diagram-title diagram-desc" xmlns="http://www.w3.org/2000/svg">
+          <title id="diagram-title">Luồng kết nối của ứng dụng Bếp Nhà</title>
+          <desc id="diagram-desc">Trình duyệt chạy React SPA gọi Express REST API. Express dùng Supabase SDK để đọc ghi PostgreSQL. Secret chỉ nằm ở backend.</desc>
+          <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0 L8 4 L0 8" fill="none" stroke="#245543" stroke-width="1.5"/></marker></defs>
+          <rect x="5" y="18" width="214" height="105" rx="5" fill="#edf3ee" stroke="#245543"/>
+          <rect x="273" y="18" width="214" height="105" rx="5" fill="#245543" stroke="#245543"/>
+          <rect x="541" y="18" width="214" height="105" rx="5" fill="#edf3ee" stroke="#245543"/>
+          <g font-family="Arial, Helvetica, sans-serif" text-anchor="middle">
+            <text x="112" y="47" fill="#17251f" font-size="16" font-weight="700">React SPA</text><text x="112" y="73" fill="#59665f" font-size="12">Browser · CSR</text><text x="112" y="100" fill="#59665f" font-size="11">localhost:5173</text>
+            <text x="380" y="47" fill="#ffffff" font-size="16" font-weight="700">Express REST API</text><text x="380" y="73" fill="#e1ece5" font-size="12">Supabase SDK · secret ở backend</text><text x="380" y="100" fill="#e1ece5" font-size="11">localhost:3000</text>
+            <text x="648" y="47" fill="#17251f" font-size="16" font-weight="700">Supabase</text><text x="648" y="73" fill="#59665f" font-size="12">PostgreSQL · dữ liệu có sẵn</text><text x="648" y="100" fill="#59665f" font-size="11">Món ăn · đầu bếp · nguyên liệu</text>
+          </g>
+          <path d="M226 70 H265 M495 70 H533" stroke="#245543" stroke-width="1.5" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+        </svg>
+        <figcaption>Frontend không kết nối Supabase trực tiếp. Các cổng trên là cấu hình chạy local thông thường.</figcaption>
+      </figure>
+      <table>
+        <thead><tr><th>Thư viện / dịch vụ</th><th>Cách sử dụng trong sản phẩm</th><th>Dấu vết mã nguồn</th></tr></thead>
+        <tbody>
+          <tr><td>React + React Router</td><td>Dựng SPA, route, link nội bộ, path/query param.</td><td><code>web/src/main.tsx</code><br><code>web/src/App.tsx</code></td></tr>
+          <tr><td>React Hook Form + Zod</td><td>Quản lý form, trạng thái submit, validation và lỗi từng trường; schema dùng chung.</td><td><code>web/src/App.tsx</code><br><code>shared/schemas.js</code></td></tr>
+          <tr><td>Radix Themes + Lucide</td><td>Button, badge, callout, skeleton, card và icon; kết hợp CSS nhận diện riêng.</td><td><code>web/src/App.tsx</code></td></tr>
+          <tr><td>Express + cors</td><td>Route REST, JSON parser, middleware lỗi, CORS/preflight.</td><td><code>api/src/app.js</code></td></tr>
+          <tr><td>Supabase + SDK</td><td>Lưu dữ liệu PostgreSQL; CRUD, lọc tên và truy vấn quan hệ.</td><td><code>api/src/storage.js</code></td></tr>
+          <tr><td>Fetch API + AbortController</td><td>Dùng API có sẵn của browser; adapter contract và hủy request cũ.</td><td><code>web/src/api.ts</code><br><code>web/src/useLoad.ts</code></td></tr>
+          <tr><td>Supertest + Playwright</td><td>Kiểm tra API và các luồng người dùng bằng trình duyệt.</td><td><code>api/test/</code><br><code>tests/restaurant.spec.ts</code></td></tr>
+        </tbody>
+      </table>
+      <p><strong>Phần code riêng do AI tạo theo yêu cầu:</strong> trang chức năng, luồng nghiệp vụ, ánh xạ lỗi theo slide, adapter API/storage, bố cục và CSS. Một số input và bảng vẫn dùng HTML native; không khẳng định toàn bộ UI được thay bằng component thư viện.</p>
+      <p><strong>Quy tắc dữ liệu:</strong> mỗi trang tự tải thông tin, không dùng global store/cache để giữ bản ghi giữa các trang. Sau khi ghi thành công, router chuyển sang trang đích để tải lại dữ liệu. PUT chưa được triển khai; chức năng sửa sử dụng PATCH theo đề.</p>
+    </section>
+
+    <section id="kiem-thu">
+      <h2><span class="number">05</span>Kiểm thử và xác minh kết quả</h2>
+      <p>Các số liệu dưới đây được ghi nhận từ lần xác minh cuối trong quá trình phát triển đã nêu ở nhật ký, không phải kết quả chạy lại riêng để lập báo cáo.</p>
+      <div class="stats"><div class="stat"><strong>10</strong><span>Test API đạt</span></div><div class="stat"><strong>15</strong><span>Test trình duyệt đạt</span></div><div class="stat"><strong>18</strong><span>URL thuộc 3 tài nguyên được kiểm tra mở/Reload</span></div></div>
+      <table>
+        <thead><tr><th>Nhóm xác minh</th><th>Nội dung và phạm vi</th></tr></thead>
+        <tbody>
+          <tr><td>Build / kiểu dữ liệu</td><td>Build production bằng Vite và kiểm tra TypeScript đạt.</td></tr>
+          <tr><td>API</td><td>CRUD ba tài nguyên, validation, whitelist, id không hợp lệ, response contract, JSON sai, route sai, lỗi database, CORS/preflight và lưu trữ local.</td></tr>
+          <tr><td>Supabase SDK</td><td>Kiểm thử qua HTTP giả lập: cấu hình, tên bảng/schema, phân trang, UUID, CRUD, lỗi kỹ thuật và truy vấn quan hệ. Không ghi dữ liệu thật trong nhóm test này.</td></tr>
+          <tr><td>Trình duyệt</td><td>Điều hướng, mở/Reload, form thêm/sửa, tìm kiếm, xác nhận xóa, giữ giá trị khi lỗi, khóa submit, loading/empty/error, response cũ, UUID, ảnh và quan hệ món ăn.</td></tr>
+          <tr><td>Supabase thật — chỉ đọc</td><td>Đọc được 6 món ăn, 3 đầu bếp, 10 nguyên liệu; xác minh chi tiết cả 6 món có đầu bếp và nguyên liệu, schema đọc hợp lệ tại thời điểm kiểm tra.</td></tr>
+          <tr><td>Giao diện</td><td>Xem ảnh chụp desktop/mobile từ trình duyệt kiểm thử; kiểm tra không tràn ngang và link từ món ăn sang đầu bếp/nguyên liệu hoạt động.</td></tr>
+        </tbody>
+      </table>
+      <div class="note"><p><strong>Phân biệt môi trường:</strong> Playwright chạy API SQLite in-memory ở cổng 3101 và frontend production kiểm thử ở cổng 5174; các ca ảnh/quan hệ dùng response giả lập khi cần. Kết quả này không đồng nghĩa đã chạy toàn bộ CRUD tự động trên Supabase thật. Việc kiểm tra Supabase thật trong quá trình thực hiện sử dụng thao tác đọc để bảo toàn dữ liệu.</p></div>
+      <h3>Phạm vi xác minh bảo mật key</h3>
+      <p>Nhóm nhập key trong file môi trường local. <strong>Công cụ do AI điều khiển có truy cập cấu hình local để kiểm tra và kết nối</strong>; không khẳng định “AI chưa từng truy cập key”. Trong giai đoạn bổ sung kết nối, người dùng đã gửi URI PostgreSQL có mật khẩu trong hội thoại. Đây là thông tin nhạy cảm đã được chia sẻ trong chat; cần đổi mật khẩu database. Báo cáo không chép lại URI hoặc mật khẩu đó.</p>
+      <p>Script đóng gói đối chiếu giá trị secret trong các file môi trường local với nội dung từng file nộp và nội dung ZIP, đồng thời loại file môi trường thật, chứng chỉ local và dữ liệu nguồn dung lượng lớn. Báo cáo chỉ ghi tên biến, không chứa key hay connection string thật. Đây là <strong>kiểm tra bản nộp hiện tại</strong>, không phải cam kết chưa từng rò rỉ ở hội thoại, lịch sử Git hoặc nơi khác.</p>
+      <p><code>api/.env</code> được loại trừ trong <code>.gitignore</code>. Frontend chỉ dùng <code>VITE_API_URL</code> là địa chỉ backend công khai; key Supabase không đặt trong biến <code>VITE_*</code>. <code>.gitignore</code> không xóa secret đã bị commit trước đó; lịch sử Git, ảnh chụp, bản ghi màn hình và nơi chia sẻ ngoài phạm vi trên chưa được xác minh.</p>
+      <p class="small">Việc không đưa key xuống frontend không thay thế phân quyền API. CORS chỉ kiểm soát quyền đọc response từ trình duyệt, không phải cơ chế đăng nhập hoặc xác thực người gọi.</p>
+    </section>
+
+    <section id="danh-gia" class="break-before">
+      <h2><span class="number">06</span>Đánh giá quá trình và hạn chế</h2>
+      <h3>Hiệu quả của cách làm qua prompt</h3>
+      <ul>
+        <li>Prompt có đặc tả cụ thể giúp AI bám theo quy ước đặc biệt của môn học, nhất là phân biệt lỗi kỹ thuật và lỗi nghiệp vụ.</li>
+        <li>Yêu cầu đọc Markdown giúp giữ quy tắc frontend trong workspace và cập nhật lại sau các thay đổi được chấp nhận.</li>
+        <li>Phản hồi trực tiếp về giao diện, dữ liệu, ảnh và quan hệ giúp phát hiện những thiếu sót mà một prompt ban đầu chưa bao quát.</li>
+        <li>Thư viện và dịch vụ có sẵn giảm phần phải tự xây, đặc biệt routing, form, validation, CORS và truy vấn database.</li>
+      </ul>
+      <h3>Những điểm cần rút kinh nghiệm</h3>
+      <table>
+        <thead><tr><th>Vấn đề gặp phải</th><th>Kinh nghiệm rút ra</th></tr></thead>
+        <tbody>
+          <tr><td>AI chọn SQLite trước khi biết Supabase có sẵn.</td><td>Cần cung cấp sớm hạ tầng và nguồn dữ liệu trong prompt; yêu cầu AI khảo sát schema thật trước khi chọn giải pháp lưu trữ.</td></tr>
+          <tr><td>Yêu cầu “trắng–đen tương phản” bị hiểu thành đổi toàn bộ màu.</td><td>Cần chỉ rõ phạm vi: giữ màu nền/ảnh, chỉ tăng tương phản đường viền; nên mô tả tiêu chí thị giác có thể kiểm tra.</td></tr>
+          <tr><td>Có imageUrl trong database nhưng API chưa trả về.</td><td>Phải kiểm tra toàn bộ luồng database → API → schema đọc → UI; không chỉ xem dữ liệu tại một lớp.</td></tr>
+          <tr><td>Nhầm Project URL với connection string.</td><td>Tên biến và file mẫu cần nêu rõ định dạng; cung cấp lệnh kiểm tra chỉ đọc và lỗi cấu hình dễ hiểu.</td></tr>
+          <tr><td>Đã dùng thư viện nhưng còn nhiều HTML/CSS riêng.</td><td>Đánh giá trên mã thực tế, tránh suy luận chỉ từ package.json; tiếp tục tái sử dụng component phù hợp khi mở rộng.</td></tr>
+        </tbody>
+      </table>
+      <h3>Phạm vi chưa triển khai</h3>
+      <p>Giao diện được kiểm chứng ở môi trường local, dữ liệu catalog được tích hợp với Supabase cloud; chưa cấu hình hosting giao diện công khai hoặc CI. Chưa có đăng nhập/phân quyền quản trị, đặt bàn, giỏ hàng hay thanh toán. Upload ảnh Kaggle được bổ sung bằng công cụ import riêng, chưa có form upload ảnh cho người dùng. Cần bổ sung kiểm soát truy cập trước khi đưa các thao tác quản trị có quyền ghi lên Internet.</p>
+      <p>Nhóm công khai việc AI hỗ trợ phần lớn quá trình tạo mã và chạy công cụ. Đóng góp của nhóm được ghi nhận qua xây dựng yêu cầu, sử dụng và điều chỉnh prompt, cung cấp cấu hình, phản hồi kết quả và yêu cầu kiểm chứng. Báo cáo không quy đổi số lượng mã do AI tạo thành mức độ hoàn thành hoặc đóng góp cá nhân.</p>
+      <h3>Giới hạn của việc đối chiếu nghiệm thu</h3>
+      <p>Các kết quả đã đạt được đối chiếu với yêu cầu kỹ thuật trong slide và các ca test hiện có, không thay thế bảng chấm điểm hoặc mẫu báo cáo riêng của giảng viên nếu có. Các số liệu database là ảnh chụp trạng thái tại thời điểm đọc, không phải số lượng cố định của hệ thống. Ảnh chụp giao diện trong thư mục kiểm thử có thể sử dụng dữ liệu giả lập, không được dùng để khẳng định toàn bộ nội dung trên ảnh là dữ liệu Supabase thật.</p>
+      <p>Chức năng bổ sung hiện chỉ đọc/hiển thị ảnh và quan hệ đã có trên Supabase. Form quản trị chưa cung cấp thao tác chọn ảnh, gán đầu bếp hoặc sửa danh sách nguyên liệu của món; báo cáo không coi các thao tác này là đã triển khai.</p>
+    </section>
+
+    <section id="ban-giao">
+      <h2><span class="number">07</span>Sản phẩm bàn giao và cách chạy</h2>
+      <table>
+        <thead><tr><th>Thành phần</th><th>Nội dung bàn giao</th></tr></thead>
+        <tbody>
+          <tr><td><code>api/</code></td><td>Express REST API, Supabase SDK, lớp storage, kiểm tra kết nối và test backend.</td></tr>
+          <tr><td><code>web/</code></td><td>React SPA, trang người dùng/quản trị, ảnh và quan hệ món ăn, giao diện responsive.</td></tr>
+          <tr><td><code>shared/</code></td><td>Schema validation và schema dữ liệu đọc dùng chung.</td></tr>
+          <tr><td><code>tests/</code></td><td>Các bài kiểm thử trình duyệt Playwright.</td></tr>
+          <tr><td>Cấu hình, tài liệu</td><td>README, quy tắc frontend, package/lockfile và .env.example không có secret; báo cáo HTML này.</td></tr>
+        </tbody>
+      </table>
+      <p>Yêu cầu Node.js 24 trở lên. Điền cấu hình Supabase ở <code>api/.env</code>, sau đó chạy tại thư mục project:</p>
+      <pre><code>npm install
+npm run check:supabase -w api
+npm run dev</code></pre>
+      <p>Frontend: <code>http://localhost:5173</code> · Backend: <code>http://localhost:3000</code>.</p>
+      <p>Các lệnh phục vụ tái kiểm tra:</p>
+      <pre><code>npm run build
+npm test
+npx playwright install chromium
+npm run test:e2e</code></pre>
+      <p class="small">Khi nộp mã nguồn, giữ file mẫu môi trường; không gửi kèm file .env chứa key thật. Prompt gốc và các vòng phản hồi có thể đối chiếu trong lịch sử hội thoại; báo cáo này là bản tổng hợp đã loại phần hỏi đáp ôn bài.</p>
+      <h3>Trích prompt làm bằng chứng đối chiếu</h3>
+      <p class="small">Khác với phần nhật ký đã rút gọn, các đoạn dưới đây trích nguyên văn một số yêu cầu của người dùng trong lịch sử trao đổi, giữ cả cách viết ban đầu. Đây là bằng chứng mẫu, không phải toàn bộ transcript hay prompt triển khai dài.</p>
+      <blockquote class="prompt"><span class="prompt-label">Yêu cầu nguyên văn — đọc tài liệu frontend</span>Bổ sung thêm quy tắt frontend là đọc file md</blockquote>
+      <blockquote class="prompt"><span class="prompt-label">Yêu cầu nguyên văn — rà soát thư viện</span>Đầu tiên kiểm tra xem m đã ưu tiên dùng thư viện thay vì tự code chưa ?</blockquote>
+      <blockquote class="prompt"><span class="prompt-label">Yêu cầu nguyên văn — tận dụng dữ liệu có sẵn</span>T đang có dữ liệu data từ supabase, tạo file .env và để t tự nạp mã vô</blockquote>
+      <blockquote class="prompt"><span class="prompt-label">Yêu cầu nguyên văn — chức năng bổ sung</span>m là 1 chuyên gia developer, bổ sung thêm khi nhấp vào chi tiết món ăn sẽ hiển thị ai là đầu bếp và nguyên liệu tạo thành</blockquote>
+    </section>
+
+    <section id="mo-rong-catalog" class="break-before">
+      <h2><span class="number">08</span>Bổ sung ngày 30/10/2026: phân trang và tìm kiếm</h2>
+      <blockquote class="prompt"><span class="prompt-label">Nội dung prompt — rút gọn</span>Mở rộng ba kiểu phân trang cho người dùng (số trang, tải thêm, cuộn tự động); admin dùng số trang. Lưu bộ lọc trên URL, có skeleton, full-text/fuzzy search, nhập dữ liệu Kaggle và bản demo khi API không truy cập được. Ưu tiên thư viện sẵn có.</blockquote>
+      <p>Nhóm xác nhận thêm bộ lọc admin theo trạng thái phục vụ, khoảng giá, đầu bếp/chưa phân công, có/thiếu ảnh và nguồn dữ liệu, ngoài tên, thể loại và sắp xếp giá. Yêu cầu mới cho phép dùng query cache của thư viện, thay thế giới hạn không dùng cache trong giai đoạn đầu.</p>
+      <table><thead><tr><th>Hạng mục</th><th>Kết quả triển khai và phạm vi</th></tr></thead><tbody>
+        <tr><td>Phân trang</td><td>API trả một page và metadata tổng; frontend dùng TanStack Query để nối page trong load more/infinite. react-intersection-observer theo dõi cuối danh sách. Thứ tự có id phụ; offset vẫn có giới hạn khi dữ liệu thay đổi đồng thời.</td></tr>
+        <tr><td>URL và skeleton</td><td>Lưu q, category, sort, page, pageSize, view, searchMode, scope và filter admin. Khôi phục tối đa 20 page tự động rồi yêu cầu bấm tiếp; có chia sẻ URL, giữ kết quả cũ khi tải trang tiếp theo và skeleton bổ sung.</td></tr>
+        <tr><td>Full-text / fuzzy</td><td>Migration PostgreSQL dùng tsvector, websearch_to_tsquery, ts_rank, unaccent và pg_trgm với GIN index. Không coi rank là % phù hợp hoặc embedding. Chế độ auto chỉ fuzzy khi tổng FTS sau filter bằng 0; có nút tìm gần đúng và bảng alias vùng miền khai báo riêng.</td></tr>
+        <tr><td>Demo</td><td>SQLite demo có 78 món; khi không gọi được backend có thể mở MSW demo với 72 món trên trình duyệt. Có banner dữ liệu mẫu. Không ghép dữ liệu thật/demo hoặc gửi lại mutation lỗi sang demo.</td></tr>
+        <tr><td>Kiểm thử cập nhật</td><td>16 test backend/SQL/parser và 23 ca trình duyệt đã được xác minh qua các lượt kiểm thử của phần mở rộng (22 ca chạy toàn bộ, sau đó 7 ca phân trang gồm 1 ca chuyển nguồn mới). SQL search được kiểm tra bằng PostgreSQL nhúng PGlite với extensions thật; sau khi sửa kết nối, API đọc danh sách và chi tiết cũng đã được kiểm tra trên Supabase cloud. Kết quả kiểm chứng cuối cùng nằm trong api/reports/kaggle-verification.json.</td></tr>
+      </tbody></table>
+      <h3>Dataset Kaggle và trạng thái import</h3>
+      <p>Nguồn: <a href="https://www.kaggle.com/datasets/pes12017000148/food-ingredients-and-recipe-dataset-with-images">Food Ingredients and Recipes Dataset with Images</a>. Metadata công khai được kiểm tra ghi giấy phép CC BY-SA 3.0. CSV local có các cột Title, Ingredients, Instructions, Image_Name, Cleaned_Ingredients; dry-run ghi nhận 13.501 dòng, trong đó 13.493 hợp lệ và 8 dòng bị loại.</p>
+      <p>Ban đầu kết nối gặp lỗi Project URL, chứng chỉ CA và thiếu đường IPv6 tới database trực tiếp. Nhóm sửa Project URL, bổ sung CA certificate và chuyển sang Session Pooler; kết nối TLS có xác minh đã thành công. AI khảo sát schema cloud, giữ nguyên bảng recipes có sẵn và chạy migration bổ sung các bảng catalog cùng RPC tìm kiếm. Nhật ký import cloud và kiểm chứng được lưu riêng, không dùng kết quả demo để thay thế.</p>
+      <p>Import theo batch 100 với transaction, checkpoint, chống trùng source/sourceId, retry có giới hạn cho serialization/deadlock và rollback theo batch. Parser dùng csv/ast.literal_eval của Python, không eval dữ liệu nguồn. Người dùng cung cấp thư mục ảnh và cho phép tạo bucket public recipe-images. Kiểm kê có 13.463 ảnh khớp công thức hợp lệ, 30 công thức thiếu ảnh nguồn được giữ trống; script upload không ghi đè object và kiểm tra hash khi tái sử dụng.</p>
+      <p>Dataset không có giá bán, thể loại nhà hàng hoặc đầu bếp. Giá placeholder được đánh dấu syntheticPrice và UI hiển thị “Chưa định giá”; thể loại chưa phân loại cũng có cờ riêng, không gán đầu bếp giả. Nguyên liệu không suy diễn lượng/đơn vị. Các giá trị này không được báo cáo là thuộc tính thật của Kaggle.</p>
+      <p><strong>Kết quả import cloud:</strong> đã nhập 13.493 công thức, 73.940 nguyên liệu và 146.486 liên kết món–nguyên liệu; 8 dòng CSV không hợp lệ bị loại. Có 767 lượt tên nguyên liệu vượt giới hạn model không tạo bản ghi riêng nhưng vẫn giữ chuỗi gốc trong recipeIngredients. Sáu luồng trình duyệt chỉ đọc đã đạt với dữ liệu Supabase thật: số trang, tải thêm/khôi phục URL, cuộn tự động, full-text, ảnh/chi tiết và lọc admin kết hợp. Kiểm thử backend đạt 16/16 và build frontend thành công.</p>
+      <p><strong>Kết quả ảnh:</strong> đã upload và liên kết 13.463 ảnh thật vào bucket public recipe-images; 30 công thức thiếu ảnh nguồn được giữ trống. Kết quả tổng thể nằm trong kaggle-verification.json; kaggle-images.json chỉ thống kê lượt upload gần nhất vì quá trình có thể chạy tiếp từ các ảnh đã lưu. Báo cáo không coi số ảnh thiếu trong nguồn là lỗi upload.</p>
+      <h3>Bổ sung giá và thể loại minh họa</h3>
+      <p><strong>Cập nhật đầu bếp demo theo yêu cầu tiếp theo:</strong> bổ sung 8 hồ sơ giả lập có hậu tố “(demo)”, chuyên môn theo nhóm món; chỉ gán các công thức Kaggle chưa có đầu bếp. Đây là dữ liệu demo do nhóm yêu cầu bổ sung, không phải danh tính tác giả từ Kaggle. Công cụ lưu registry và audit, không thay quan hệ đã có và không tạo trùng khi chạy lại. Trang chi tiết món và bộ lọc admin đọc các quan hệ chefId từ Supabase. Nhật ký nằm tại api/reports/demo-chefs-fill.json và demo-chefs-verification.json; nội dung trước đó về “không có đầu bếp trong nguồn” mô tả dataset gốc.</p>
+      <blockquote class="prompt"><span class="prompt-label">Yêu cầu bổ sung</span>Tự điền dữ liệu giá và thể loại để dùng cho bản demo.</blockquote>
+      <p>AI bổ sung công cụ xem trước/ghi giá và thể loại cho các công thức Kaggle còn giá trị giữ chỗ: giá giả lập 15.000–225.000đ, chia 14 nhóm bằng quy tắc theo tên và nguyên liệu. Các giá trị được tạo cố định theo mã nguồn, không thay đổi ngẫu nhiên giữa các lần tải; không ghi đè giá/thể loại đã chỉnh tay. Giá trị cũ được lưu trong catalog_demo_enrichment trước khi cập nhật. Cờ syntheticPrice/syntheticCategory vẫn được giữ để phân biệt dữ liệu sinh ra với dữ liệu gốc.</p>
+      <p>Web hiển thị giá dương kèm nhãn “demo”, thông báo nguồn giả lập và cho phép lọc/sắp xếp theo giá đó. Giá giữ chỗ 0 vẫn hiện “Chưa định giá”. Phân loại tự động chỉ là heuristic dùng minh họa; không được báo cáo là nhãn chính thức hay giá bán từ Kaggle. Báo cáo cập nhật dữ liệu nằm trong api/reports/demo-menu-fill.json. Bộ kiểm thử tăng lên 17 test backend; có thêm kiểm tra phân loại, giá cố định và lọc/sắp xếp với giá giả lập.</p>
+      <p>Hướng dẫn và giới hạn cụ thể nằm trong <code>docs/CATALOG-EXTENSION.md</code>; báo cáo dry-run, import, upload và kiểm chứng cuối cùng nằm trong <code>api/reports/</code>. Bản ZIP không chứa CSV/ảnh nguồn có dung lượng lớn, key, chứng chỉ local hoặc connection string. Database cloud thuộc project của nhóm; người chấm không có key có thể dùng demo riêng và không tự nhận được dữ liệu cloud của nhóm khi điền key project khác.</p>
+    </section>
+    <footer class="footer"><span>Nhóm 4 · Bếp Nhà · Báo cáo quá trình làm việc với AI</span><span>Lập 23/10/2026 · Cập nhật 30/10/2026</span></footer>
+  </main>
+  <script>
+    document.getElementById('print-report').addEventListener('click', () => window.print());
+    document.getElementById('save-html').addEventListener('click', () => {
+      const copy = document.documentElement.cloneNode(true);
+      const liveInputs = document.querySelectorAll('.student-info input');
+      copy.querySelectorAll('.student-info input').forEach((input, index) => input.setAttribute('value', liveInputs[index].value));
+      const blob = new Blob(['<!DOCTYPE html>\n' + copy.outerHTML], { type:'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'bao-cao-qua-trinh-lam-viec.html';
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+  </script>
+</body>
+</html>

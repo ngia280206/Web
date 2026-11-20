@@ -1,0 +1,55 @@
+{
+  "date": "2026-11-13",
+  "environment": "Actual configured Supabase and Gmail SMTP",
+  "accessTokenSeconds": 15,
+  "mailMode": "smtp",
+  "authDriver": "postgres",
+  "signingKeyConfigured": true,
+  "database": {
+    "connected": true,
+    "tlsVerified": true,
+    "schema": "bep_auth",
+    "users": [
+      {
+        "account": "account_1",
+        "role": "viewer",
+        "status": "active",
+        "passwordHash": "scrypt$32768$8$3$[SALT/HASH REDACTED]",
+        "emailVerifiedAt": "1794542773959",
+        "tokenVersion": 0,
+        "createdAt": "1794542752128"
+      }
+    ],
+    "activationChallenges": [
+      {
+        "account": "account_1",
+        "otpHash": "f6a9c54baa75...[REDACTED]",
+        "expiresAt": "1794543352693",
+        "usedAt": "1794542774182",
+        "attempts": 0
+      }
+    ]
+  },
+  "smtp": {
+    "authenticated": true,
+    "emailSent": false
+  },
+  "publicApi": [
+    {
+      "path": "/api/dishes?page=1&pageSize=2",
+      "reachable": false
+    },
+    {
+      "path": "/api/dishes/13493",
+      "reachable": false
+    },
+    {
+      "path": "/api/chefs",
+      "reachable": false
+    },
+    {
+      "path": "/api/ingredients",
+      "reachable": false
+    }
+  ]
+}

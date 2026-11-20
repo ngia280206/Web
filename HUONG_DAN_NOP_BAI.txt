@@ -1,0 +1,44 @@
+BLOCK 9 - NHOM 4 - REST API / REACT CSR
+Ban nop: Block 9_nhom_4.zip
+
+Can Node.js >=24, npm; Python 3 cho test parser va dong goi.
+Trong thu muc giai nen:
+  npm ci
+  npm run dev
+Mo http://localhost:5173/register
+
+Khong co .env: catalog/tai khoan dung SQLite local, email ghi file.
+Sau dang ky, doc OTP local:
+  npm run auth:mail -w api -- --email student@example.com
+Kich hoat xong thi dang nhap rieng.
+
+Ban cloud cua nhom: PostgreSQL Supabase + Gmail SMTP, access token 15 giay.
+Credential that khong nam trong ZIP. Tao .env tu .env.example, dien cac key
+va connection string/SMTP theo README.md. Tai CA vao api/certs/supabase-ca.crt.
+Chay:
+  npm run auth:check -w api
+  npm run auth:migrate -w api
+  npm run auth:check-mail -w api
+  npm run dev
+
+Tai khoan cloud nam o schema bep_auth, bang auth_users.
+Mo /session, cho 00:00, bam Kiem tra phien: me 401 -> refresh 200 -> me 200.
+
+Kiem tra:
+  npm test
+  npm run build
+  npx playwright install chromium
+  npm run test:e2e
+
+Tai lieu:
+  docs/BAO_CAO_BLOCK9.html : bao cao offline, anh, request da che, so do
+  docs/BLOCK9-NHOM4.md    : doi chieu de va loi agent da sua
+  docs/AUTHENTICATION.md  : chinh sach va cau hinh
+  docs/AUTH-VALIDATION.md : ket qua va gioi han bang chung
+
+Bang chung tu dong ghi ro fixture hay cloud that.
+Nhom bo sung anh email OTP/reset that da che ma va anh F12 truc tiep
+neu giang vien yeu cau dung dang hinh chup DevTools cho tung kich ban.
+
+ZIP khong chua .env that, JWT key, SMTP password, database/mailbox local,
+node_modules, build, trace/HAR tho hay dataset/anh goc Kaggle.

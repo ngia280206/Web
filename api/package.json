@@ -1,0 +1,37 @@
+{
+  "name": "@bep-nha/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node --watch --env-file-if-exists=.env src/server.js",
+    "start": "node --env-file-if-exists=.env src/server.js",
+    "test": "node --test test/*.test.js",
+    "check:supabase": "node --env-file-if-exists=.env src/check-supabase.js",
+    "migrate": "node --env-file-if-exists=.env scripts/migrate.js",
+    "import:kaggle": "node --env-file-if-exists=.env scripts/import-kaggle.js",
+    "rollback:kaggle": "node --env-file-if-exists=.env scripts/rollback-import.js",
+    "images:kaggle": "node --env-file-if-exists=.env scripts/upload-kaggle-images.js",
+    "verify:kaggle": "node --env-file-if-exists=.env scripts/verify-kaggle.js",
+    "fill:demo-menu": "node --env-file-if-exists=.env scripts/fill-demo-menu.js",
+    "fill:demo-chefs": "node --env-file-if-exists=.env scripts/fill-demo-chefs.js",
+    "auth:mail": "node --env-file-if-exists=.env scripts/auth-mail.js",
+    "auth:inspect": "node --env-file-if-exists=.env scripts/auth-inspect.js",
+    "auth:migrate": "node --env-file-if-exists=.env scripts/auth-migrate.js",
+    "auth:check": "node --env-file-if-exists=.env scripts/auth-check.js",
+    "auth:check-mail": "node --env-file-if-exists=.env scripts/auth-check-mail.js"
+  },
+  "dependencies": {
+    "@bep-nha/shared": "*",
+    "@supabase/supabase-js": "^2.118.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "jose": "^6.2.17",
+    "nodemailer": "^10.5.0",
+    "pg": "^8.23.1",
+    "svg-captcha": "^1.4.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.13",
+    "supertest": "^7.1.4"
+  }
+}

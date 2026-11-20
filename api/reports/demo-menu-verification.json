@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-10-30T04:16:02.757Z",
+  "counts": {
+    "recipes": 13493,
+    "priced": 13493,
+    "categories": 14,
+    "min_price": 15000,
+    "max_price": 225000,
+    "unclassified": 0,
+    "backups": 13493
+  },
+  "remainingCandidates": 0,
+  "checks": {
+    "apiPriceRangeAndSorting": true,
+    "uiDemoPrice": true,
+    "categoryFilter": true,
+    "detailDemoPrice": true
+  }
+}

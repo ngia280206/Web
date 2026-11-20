@@ -1,0 +1,26 @@
+{
+  "version": "demo-menu-v1",
+  "mode": "commit",
+  "note": "Generated illustrative VND prices and heuristic categories, not original Kaggle data. Synthetic flags remain true.",
+  "selected": 13493,
+  "updated": 13493,
+  "categories": {
+    "Gà & gia cầm": 796,
+    "Món rau củ": 2274,
+    "Món tổng hợp": 2079,
+    "Bánh mì & bánh mặn": 412,
+    "Thịt bò & cừu": 585,
+    "Sốt & gia vị": 1521,
+    "Thịt heo": 687,
+    "Canh & súp": 525,
+    "Salad": 872,
+    "Hải sản": 776,
+    "Cơm & ngũ cốc": 350,
+    "Tráng miệng": 1880,
+    "Mì & pasta": 387,
+    "Đồ uống": 349
+  },
+  "minPrice": 15000,
+  "maxPrice": 225000,
+  "checkedAt": "2026-10-30T04:13:56.545Z"
+}

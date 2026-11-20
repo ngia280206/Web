@@ -1,0 +1,461 @@
+{
+  "title": "forgot/reset from emailed link is read-only until submit and does not automatically log in",
+  "status": "passed",
+  "environment": "Isolated Playwright server, sample accounts and file-mail fixture; not live Gmail/Supabase.",
+  "url": "http://localhost:5174/admin/dishes",
+  "storage": {
+    "localStorageKeys": [],
+    "sessionStorageKeys": []
+  },
+  "cookies": [
+    {
+      "name": "bep_anonymous",
+      "value": "[REDACTED]",
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax",
+      "path": "/api/auth"
+    },
+    {
+      "name": "bep_refresh",
+      "value": "[REDACTED]",
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax",
+      "path": "/api/auth"
+    }
+  ],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/info",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"31-XXYF2KhDm71cd7uf64uc2XoFFTc\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "49",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:36 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "mode": "sqlite",
+          "demo": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/forgot",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {
+        "email": "reset-1794562896419@example.com",
+        "password": "[REDACTED]",
+        "otp": "[REDACTED]",
+        "token": "[REDACTED]"
+      },
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"a1-pyqDO8iSczdYH5DM5DUcoFQBkb0\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "161",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/info",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "49",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "etag": "W/\"31-XXYF2KhDm71cd7uf64uc2XoFFTc\"",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "mode": "sqlite",
+          "demo": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/reset",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {
+        "email": "",
+        "password": "[REDACTED]",
+        "otp": "[REDACTED]",
+        "token": "[REDACTED]"
+      },
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"79-g8NQxkstcersU801QKgnHPbW2CA\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "121",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Đã đổi mật khẩu và kết thúc các phiên cũ. Vui lòng đăng nhập lại."
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/refresh",
+      "status": 401,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {},
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"81-LfDUU8ScAan1JtLZ2mkYTDmSNqg\"",
+        "www-authenticate": "Bearer",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "129",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:36 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": null
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/login",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {
+        "email": "reset-1794562896419@example.com",
+        "password": "[REDACTED]",
+        "otp": "[REDACTED]",
+        "token": "[REDACTED]"
+      },
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"243-rkcWSbUY0ViKfxe+nD8mKlydJ80\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "579",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "accessToken": "[REDACTED]",
+          "expiresIn": 15,
+          "expiresAt": 1794562912000,
+          "user": {
+            "id": "6fd259e0-8146-4cad-a400-97af26737002",
+            "email": "reset-1794562896419@example.com",
+            "role": "viewer",
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/dishes/facets",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[REDACTED]",
+        "referer": "",
+        "accept-language": "en-US",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0",
+        "x-data-source": "sqlite",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"d3-bY+yGGnRZxre+N0281oAL1UgUNU\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "211",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "categories": [
+            "Khai vị",
+            "Món canh",
+            "Món chính",
+            "Tráng miệng"
+          ],
+          "chefs": [
+            {
+              "id": 3,
+              "name": "Lê Hoài Phương"
+            },
+            {
+              "id": 1,
+              "name": "Nguyễn Thanh An"
+            },
+            {
+              "id": 2,
+              "name": "Trần Minh Hương"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/dishes?pageSize=12&q=&page=1",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[REDACTED]",
+        "referer": "",
+        "accept-language": "en-US",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0",
+        "x-data-source": "sqlite",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"7a8-hTKUnfhJ7+AZTZXjGl+1OBmUxy4\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "1960",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": [
+          {
+            "id": 6,
+            "name": "Bánh xèo miền Tây",
+            "description": "Vỏ bánh giòn thơm nghệ, nhân tôm thịt và giá đỗ. Ăn cùng rau sống theo mùa và nước mắm chua ngọt.",
+            "price": 70000,
+            "category": "Món chính",
+            "available": false,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          },
+          {
+            "id": 5,
+            "name": "Chè sen long nhãn",
+            "description": "Hạt sen bùi mềm ôm trong long nhãn, nấu cùng nước đường phèn thanh nhẹ. Dùng mát.",
+            "price": 35000,
+            "category": "Tráng miệng",
+            "available": true,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          },
+          {
+            "id": 4,
+            "name": "Canh chua cá",
+            "description": "Nước canh thanh chua từ me, cà chua và thơm, thêm rau om cùng ngò gai. Một hương vị miền Nam thân thuộc.",
+            "price": 75000,
+            "category": "Món canh",
+            "available": true,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          },
+          {
+            "id": 3,
+            "name": "Cá kho tộ",
+            "description": "Cá kho chậm trong niêu đất với nước màu dừa, tiêu xanh và hành tím. Vị đậm đà của bữa cơm nhà.",
+            "price": 95000,
+            "category": "Món chính",
+            "available": true,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          },
+          {
+            "id": 2,
+            "name": "Gỏi cuốn tôm thịt",
+            "description": "Tôm tươi, thịt luộc và rau vườn cuốn trong bánh tráng mỏng. Chấm cùng tương đậu phộng rang thơm.",
+            "price": 45000,
+            "category": "Khai vị",
+            "available": true,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          },
+          {
+            "id": 1,
+            "name": "Cơm tấm sườn bì chả",
+            "description": "Sườn nướng than hoa, bì trộn thính và chả trứng. Dùng cùng cơm tấm nóng, mỡ hành và nước mắm nhà làm.",
+            "price": 65000,
+            "category": "Món chính",
+            "available": true,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "pageSize": 12,
+          "totalItems": 6,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPreviousPage": false
+        },
+        "search": {
+          "requestedMode": "auto",
+          "appliedMode": "none",
+          "fallbackApplied": false,
+          "engine": "sqlite-fts5"
+        },
+        "source": "sqlite"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/info",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "49",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "etag": "W/\"31-XXYF2KhDm71cd7uf64uc2XoFFTc\"",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true"
+      },
+      "response": null
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/refresh",
+      "status": 401,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {},
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"81-LfDUU8ScAan1JtLZ2mkYTDmSNqg\"",
+        "www-authenticate": "Bearer",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "129",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:37 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": null
+    }
+  ]
+}

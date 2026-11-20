@@ -1,0 +1,116 @@
+{
+  "title": "auth pages fit a mobile viewport",
+  "status": "passed",
+  "environment": "Isolated Playwright server, sample accounts and file-mail fixture; not live Gmail/Supabase.",
+  "url": "http://localhost:5174/register",
+  "storage": {
+    "localStorageKeys": [],
+    "sessionStorageKeys": []
+  },
+  "cookies": [
+    {
+      "name": "bep_anonymous",
+      "value": "[REDACTED]",
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax",
+      "path": "/api/auth"
+    }
+  ],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/auth/captcha?purpose=register",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"105-vN330kTK7VaKcroZP8rGbLd4Tpg\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "261",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:38 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "e9def995-cc33-4e0d-a64e-d1d86affce1e",
+          "image": "[CAPTCHA image omitted]"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/info",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"31-XXYF2KhDm71cd7uf64uc2XoFFTc\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "49",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:38 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "mode": "sqlite",
+          "demo": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/refresh",
+      "status": 401,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {},
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"81-LfDUU8ScAan1JtLZ2mkYTDmSNqg\"",
+        "www-authenticate": "Bearer",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "129",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:38 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": null
+    }
+  ]
+}

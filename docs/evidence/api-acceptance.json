@@ -1,0 +1,1621 @@
+{
+  "date": "2026-11-13",
+  "environment": "Isolated SQLite acceptance fixture. Clock advanced for expiry checks. File-mail spy only; no email sent to Gmail.",
+  "total": 43,
+  "passed": 43,
+  "requests": [
+    {
+      "title": "No Bearer: post dishes",
+      "method": "POST",
+      "path": "/api/dishes",
+      "request": {},
+      "authorization": "(absent)",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "No Bearer: patch dishes",
+      "method": "PATCH",
+      "path": "/api/dishes/1",
+      "request": {},
+      "authorization": "(absent)",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "No Bearer: delete dishes",
+      "method": "DELETE",
+      "path": "/api/dishes/1",
+      "request": {},
+      "authorization": "(absent)",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "No Bearer: GET chefs",
+      "method": "GET",
+      "path": "/api/chefs",
+      "authorization": "(absent)",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "No Bearer: GET ingredients",
+      "method": "GET",
+      "path": "/api/ingredients",
+      "authorization": "(absent)",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "Public dishes retains search and pagination",
+      "method": "GET",
+      "path": "/api/dishes?q=com&page=1&pageSize=2",
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": [
+          {
+            "id": 1,
+            "name": "Cơm tấm sườn bì chả",
+            "description": "Sườn nướng than hoa, bì trộn thính và chả trứng. Dùng cùng cơm tấm nóng, mỡ hành và nước mắm nhà làm.",
+            "price": 65000,
+            "category": "Món chính",
+            "available": true,
+            "imageUrl": null,
+            "source": "original",
+            "chefId": null
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "pageSize": 2,
+          "totalItems": 1,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPreviousPage": false
+        },
+        "search": {
+          "requestedMode": "auto",
+          "appliedMode": "fts",
+          "fallbackApplied": false,
+          "engine": "sqlite-fts5"
+        },
+        "source": "sqlite"
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "CORS preflight Authorization",
+      "method": "OPTIONS",
+      "path": "/api/dishes",
+      "status": 204,
+      "responseHeaders": {
+        "access-control-allow-origin": "http://localhost:5173",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET,POST,PATCH,DELETE,OPTIONS",
+        "access-control-allow-headers": "Content-Type,X-Data-Source,Authorization",
+        "content-length": "0",
+        "date": "Fri, 13 Nov 2026 09:35:04 GMT",
+        "connection": "close"
+      },
+      "passed": true
+    },
+    {
+      "title": "Register without CAPTCHA: no user/email",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "request": {
+        "email": "student@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "CAPTCHA_REQUIRED",
+          "message": "Vui lòng nhập mã CAPTCHA."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "CAPTCHA_REQUIRED"
+      },
+      "passed": true
+    },
+    {
+      "title": "Wrong CAPTCHA: no user/email",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "request": {
+        "email": "student@example.com",
+        "password": "[REDACTED]",
+        "captcha": {
+          "id": "db9d1cb8-f06f-4de0-a858-c3723565a0fa",
+          "answer": "[REDACTED]"
+        }
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_CAPTCHA",
+          "message": "Mã CAPTCHA sai, hết hạn hoặc đã dùng. Vui lòng lấy mã mới."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_CAPTCHA"
+      },
+      "passed": true
+    },
+    {
+      "title": "Register ignores supplied admin role",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "request": {
+        "email": "student@example.com",
+        "password": "[REDACTED]",
+        "role": "admin",
+        "captcha": {
+          "id": "7d6cce3b-e1e2-43b4-a0bf-8b872f994c02",
+          "answer": "[REDACTED]"
+        }
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu có thể tiếp tục, mã kích hoạt sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Duplicate email has generic response",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "request": {
+        "email": "STUDENT@example.com",
+        "password": "[REDACTED]",
+        "captcha": {
+          "id": "eee7c0e3-69fd-435f-b690-debcba5f7d51",
+          "answer": "[REDACTED]"
+        }
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu có thể tiếp tục, mã kích hoạt sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Pending account receives no JWT",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "student@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "ACCOUNT_NOT_ACTIVATED",
+          "message": "Tài khoản chưa kích hoạt. Vui lòng kiểm tra email."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "ACCOUNT_NOT_ACTIVATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "Wrong activation OTP",
+      "method": "POST",
+      "path": "/api/auth/activate",
+      "request": {
+        "email": "student@example.com",
+        "otp": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_OTP",
+          "message": "Mã kích hoạt không hợp lệ hoặc không còn sử dụng được."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_OTP"
+      },
+      "passed": true
+    },
+    {
+      "title": "Activate: no accessToken",
+      "method": "POST",
+      "path": "/api/auth/activate",
+      "request": {
+        "email": "student@example.com",
+        "otp": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Kích hoạt thành công. Bạn có thể đăng nhập."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Already-used activation OTP",
+      "method": "POST",
+      "path": "/api/auth/activate",
+      "request": {
+        "email": "student@example.com",
+        "otp": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_OTP",
+          "message": "Mã kích hoạt không hợp lệ hoặc không còn sử dụng được."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_OTP"
+      },
+      "passed": true
+    },
+    {
+      "title": "Register",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "request": {
+        "email": "expired@example.com",
+        "password": "[REDACTED]",
+        "role": "admin",
+        "captcha": {
+          "id": "4dfc3a8a-7697-42ed-aac3-722e7481c5b8",
+          "answer": "[REDACTED]"
+        }
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu có thể tiếp tục, mã kích hoạt sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Expired OTP stays pending",
+      "method": "POST",
+      "path": "/api/auth/activate",
+      "request": {
+        "email": "expired@example.com",
+        "otp": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_OTP",
+          "message": "Mã kích hoạt không hợp lệ hoặc không còn sử dụng được."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_OTP"
+      },
+      "passed": true
+    },
+    {
+      "title": "Login returns JWT with expiresIn 15",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "student@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "accessToken": "[REDACTED]",
+          "expiresIn": 15,
+          "expiresAt": 1794563179000,
+          "user": {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "role": "viewer",
+            "status": "active"
+          }
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Active viewer can use protected API",
+      "method": "GET",
+      "path": "/api/chefs",
+      "authorization": "Bearer [REDACTED]",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": [
+          {
+            "id": 3,
+            "name": "Lê Hoài Phương",
+            "specialty": "Chè & món ngọt Việt"
+          },
+          {
+            "id": 2,
+            "name": "Trần Minh Hương",
+            "specialty": "Món cuốn & rau theo mùa"
+          },
+          {
+            "id": 1,
+            "name": "Nguyễn Thanh An",
+            "specialty": "Ẩm thực Nam Bộ & món kho truyền thống"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "pageSize": 12,
+          "totalItems": 3,
+          "totalPages": 1,
+          "hasNextPage": false,
+          "hasPreviousPage": false
+        },
+        "search": {
+          "requestedMode": "auto",
+          "appliedMode": "none",
+          "fallbackApplied": false,
+          "engine": "sqlite-fts5"
+        },
+        "source": "sqlite"
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Modified JWT payload is rejected",
+      "method": "GET",
+      "path": "/api/chefs",
+      "authorization": "Bearer [REDACTED]",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "JWT expired after 15 seconds",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "authorization": "Bearer [REDACTED]",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "TOKEN_EXPIRED",
+          "message": "Phiên truy cập đã hết hạn."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "TOKEN_EXPIRED"
+      },
+      "passed": true
+    },
+    {
+      "title": "Refresh rotates and issues A2",
+      "method": "POST",
+      "path": "/api/auth/refresh",
+      "request": {},
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "accessToken": "[REDACTED]",
+          "expiresIn": 15,
+          "expiresAt": 1794563195000,
+          "user": {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "role": "viewer",
+            "status": "active"
+          }
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Retry with A2 succeeds",
+      "method": "GET",
+      "path": "/api/auth/me",
+      "authorization": "Bearer [REDACTED]",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+          "email": "student@example.com",
+          "role": "viewer",
+          "status": "active"
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Forgot existing account",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "student@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Forgot unknown account has identical response",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "absent@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "New reset link invalidates old link",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "student@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Old reset token rejected",
+      "method": "POST",
+      "path": "/api/auth/reset",
+      "request": {
+        "token": "[REDACTED]",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_RESET_TOKEN",
+          "message": "Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_RESET_TOKEN"
+      },
+      "passed": true
+    },
+    {
+      "title": "Expired reset token rejected",
+      "method": "POST",
+      "path": "/api/auth/reset",
+      "request": {
+        "token": "[REDACTED]",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_RESET_TOKEN",
+          "message": "Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_RESET_TOKEN"
+      },
+      "passed": true
+    },
+    {
+      "title": "Obtain current reset link",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "student@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Reset succeeds without auto-login",
+      "method": "POST",
+      "path": "/api/auth/reset",
+      "request": {
+        "token": "[REDACTED]",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Đã đổi mật khẩu và kết thúc các phiên cũ. Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Used reset token rejected",
+      "method": "POST",
+      "path": "/api/auth/reset",
+      "request": {
+        "token": "[REDACTED]",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_RESET_TOKEN",
+          "message": "Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_RESET_TOKEN"
+      },
+      "passed": true
+    },
+    {
+      "title": "Refresh session revoked after reset",
+      "method": "POST",
+      "path": "/api/auth/refresh",
+      "request": {},
+      "authorization": "(absent)",
+      "status": 401,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Phiên đăng nhập đã kết thúc. Vui lòng đăng nhập lại."
+        }
+      },
+      "expected": {
+        "status": 401,
+        "ok": false,
+        "code": "UNAUTHENTICATED"
+      },
+      "passed": true
+    },
+    {
+      "title": "Login with new password succeeds",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "student@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "accessToken": "[REDACTED]",
+          "expiresIn": 15,
+          "expiresAt": 1794564155000,
+          "user": {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "role": "viewer",
+            "status": "active"
+          }
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Forgot generic quota request",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "quota@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Forgot generic quota request",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "quota@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Forgot generic quota request",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "quota@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu tài khoản phù hợp tồn tại, hướng dẫn đặt lại mật khẩu sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Forgot quota is enforced",
+      "method": "POST",
+      "path": "/api/auth/forgot",
+      "request": {
+        "email": "quota@example.com"
+      },
+      "authorization": "(absent)",
+      "status": 429,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "RATE_LIMITED",
+          "message": "Bạn đã thử quá nhiều lần. Vui lòng chờ rồi thử lại."
+        }
+      },
+      "expected": {
+        "status": 429,
+        "ok": false,
+        "code": "RATE_LIMITED"
+      },
+      "passed": true
+    },
+    {
+      "title": "Register",
+      "method": "POST",
+      "path": "/api/auth/register",
+      "request": {
+        "email": "brute@example.com",
+        "password": "[REDACTED]",
+        "role": "admin",
+        "captcha": {
+          "id": "e11d9934-618d-477e-88bb-4ce1a906b245",
+          "answer": "[REDACTED]"
+        }
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Nếu có thể tiếp tục, mã kích hoạt sẽ được gửi tới email của bạn."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Valid activation does not log in",
+      "method": "POST",
+      "path": "/api/auth/activate",
+      "request": {
+        "email": "brute@example.com",
+        "otp": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": true,
+        "data": {
+          "message": "Kích hoạt thành công. Bạn có thể đăng nhập."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": true
+      },
+      "passed": true
+    },
+    {
+      "title": "Wrong password increments server counter",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "brute@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_CREDENTIALS",
+          "message": "Email hoặc mật khẩu không đúng."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_CREDENTIALS"
+      },
+      "passed": true
+    },
+    {
+      "title": "Wrong password increments server counter",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "brute@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_CREDENTIALS",
+          "message": "Email hoặc mật khẩu không đúng."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_CREDENTIALS"
+      },
+      "passed": true
+    },
+    {
+      "title": "Wrong password increments server counter",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "brute@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_CREDENTIALS",
+          "message": "Email hoặc mật khẩu không đúng.",
+          "fields": {
+            "captcha": "Cần xác minh CAPTCHA cho lần đăng nhập tiếp theo."
+          }
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "INVALID_CREDENTIALS"
+      },
+      "passed": true
+    },
+    {
+      "title": "Omitting CAPTCHA at threshold is rejected",
+      "method": "POST",
+      "path": "/api/auth/login",
+      "request": {
+        "email": "brute@example.com",
+        "password": "[REDACTED]"
+      },
+      "authorization": "(absent)",
+      "status": 200,
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "CAPTCHA_REQUIRED",
+          "message": "Vui lòng nhập mã CAPTCHA."
+        }
+      },
+      "expected": {
+        "status": 200,
+        "ok": false,
+        "code": "CAPTCHA_REQUIRED"
+      },
+      "passed": true
+    }
+  ],
+  "databaseSnapshots": [
+    {
+      "label": "Pending user, hashed OTP and failed attempt",
+      "tables": {
+        "auth_users": [
+          {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "normalizedEmail": "student@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "pending",
+            "emailVerifiedAt": null,
+            "tokenVersion": 0,
+            "createdAt": 1794562504114
+          }
+        ],
+        "activation_challenges": [
+          {
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "purpose": "activation",
+            "otpHash": "12725c83c93c...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": null,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          }
+        ],
+        "password_resets": [],
+        "auth_sessions": [],
+        "refresh_tokens": [],
+        "auth_limits": [
+          {
+            "key": "f1a4d3a90f91...[REDACTED]",
+            "count": 4,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "d93f1c3e71bc...[REDACTED]",
+            "count": 3,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "89719adbb3d5...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "85913c999f68...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          }
+        ]
+      }
+    },
+    {
+      "label": "Rotation marks R1 used and stores only token hashes",
+      "tables": {
+        "auth_users": [
+          {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "normalizedEmail": "student@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "active",
+            "emailVerifiedAt": 1794562504114,
+            "tokenVersion": 0,
+            "createdAt": 1794562504114
+          },
+          {
+            "id": "ede29db4-be97-4ebe-829b-586d4198ae70",
+            "email": "expired@example.com",
+            "normalizedEmail": "expired@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "pending",
+            "emailVerifiedAt": null,
+            "tokenVersion": 0,
+            "createdAt": 1794562504114
+          }
+        ],
+        "activation_challenges": [
+          {
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "purpose": "activation",
+            "otpHash": "12725c83c93c...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": 1794562504114,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          },
+          {
+            "userId": "ede29db4-be97-4ebe-829b-586d4198ae70",
+            "purpose": "activation",
+            "otpHash": "3b1a1a19f619...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": null,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          }
+        ],
+        "password_resets": [],
+        "auth_sessions": [
+          {
+            "id": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1795167964114,
+            "revokedAt": null,
+            "createdAt": 1794563164114
+          }
+        ],
+        "refresh_tokens": [
+          {
+            "tokenHash": "84e18741c685...[REDACTED]",
+            "sessionId": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "expiresAt": 1795167964114,
+            "usedAt": 1794563180114,
+            "createdAt": 1794563164114
+          },
+          {
+            "tokenHash": "d351a014ddc4...[REDACTED]",
+            "sessionId": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "expiresAt": 1795167964114,
+            "usedAt": null,
+            "createdAt": 1794563180114
+          }
+        ],
+        "auth_limits": [
+          {
+            "key": "f1a4d3a90f91...[REDACTED]",
+            "count": 5,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "d93f1c3e71bc...[REDACTED]",
+            "count": 4,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "89719adbb3d5...[REDACTED]",
+            "count": 2,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "85913c999f68...[REDACTED]",
+            "count": 4,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "dc8721d63e6c...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794563180114,
+            "lockedUntil": 0
+          }
+        ]
+      }
+    },
+    {
+      "label": "Reset usedAt, tokenVersion and revoked sessions",
+      "tables": {
+        "auth_users": [
+          {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "normalizedEmail": "student@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "active",
+            "emailVerifiedAt": 1794562504114,
+            "tokenVersion": 1,
+            "createdAt": 1794562504114
+          },
+          {
+            "id": "ede29db4-be97-4ebe-829b-586d4198ae70",
+            "email": "expired@example.com",
+            "normalizedEmail": "expired@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "pending",
+            "emailVerifiedAt": null,
+            "tokenVersion": 0,
+            "createdAt": 1794562504114
+          }
+        ],
+        "activation_challenges": [
+          {
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "purpose": "activation",
+            "otpHash": "12725c83c93c...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": 1794562504114,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          },
+          {
+            "userId": "ede29db4-be97-4ebe-829b-586d4198ae70",
+            "purpose": "activation",
+            "otpHash": "3b1a1a19f619...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": null,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          }
+        ],
+        "password_resets": [
+          {
+            "tokenHash": "8130337b1d84...[REDACTED]",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1794564080114,
+            "usedAt": 1794563180114
+          },
+          {
+            "tokenHash": "498035c923ae...[REDACTED]",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1794564080114,
+            "usedAt": 1794564140114
+          },
+          {
+            "tokenHash": "f3b678786042...[REDACTED]",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1794565040114,
+            "usedAt": 1794564140114
+          }
+        ],
+        "auth_sessions": [
+          {
+            "id": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1795167964114,
+            "revokedAt": 1794564140114,
+            "createdAt": 1794563164114
+          },
+          {
+            "id": "019f9124-b9fb-4079-a882-28508dbc2063",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1795168940114,
+            "revokedAt": null,
+            "createdAt": 1794564140114
+          }
+        ],
+        "refresh_tokens": [
+          {
+            "tokenHash": "84e18741c685...[REDACTED]",
+            "sessionId": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "expiresAt": 1795167964114,
+            "usedAt": 1794563180114,
+            "createdAt": 1794563164114
+          },
+          {
+            "tokenHash": "d351a014ddc4...[REDACTED]",
+            "sessionId": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "expiresAt": 1795167964114,
+            "usedAt": null,
+            "createdAt": 1794563180114
+          },
+          {
+            "tokenHash": "bb2f52fc2ee4...[REDACTED]",
+            "sessionId": "019f9124-b9fb-4079-a882-28508dbc2063",
+            "expiresAt": 1795168940114,
+            "usedAt": null,
+            "createdAt": 1794564140114
+          }
+        ],
+        "auth_limits": [
+          {
+            "key": "f1a4d3a90f91...[REDACTED]",
+            "count": 5,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "d93f1c3e71bc...[REDACTED]",
+            "count": 4,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "89719adbb3d5...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "85913c999f68...[REDACTED]",
+            "count": 4,
+            "windowStart": 1794562504114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "dc8721d63e6c...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "d839aef9d482...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "562e6b401bd1...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "c9d26480d72c...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794563180114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "375e55959cb9...[REDACTED]",
+            "count": 3,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          }
+        ]
+      }
+    },
+    {
+      "label": "Brute-force counter persists at server",
+      "tables": {
+        "auth_users": [
+          {
+            "id": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "email": "student@example.com",
+            "normalizedEmail": "student@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "active",
+            "emailVerifiedAt": 1794562504114,
+            "tokenVersion": 1,
+            "createdAt": 1794562504114
+          },
+          {
+            "id": "ede29db4-be97-4ebe-829b-586d4198ae70",
+            "email": "expired@example.com",
+            "normalizedEmail": "expired@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "pending",
+            "emailVerifiedAt": null,
+            "tokenVersion": 0,
+            "createdAt": 1794562504114
+          },
+          {
+            "id": "4b64037c-51a1-4951-ae42-00785a89691c",
+            "email": "brute@example.com",
+            "normalizedEmail": "brute@example.com",
+            "passwordHash": "scrypt$32768...[REDACTED]",
+            "role": "viewer",
+            "status": "active",
+            "emailVerifiedAt": 1794564140114,
+            "tokenVersion": 0,
+            "createdAt": 1794564140114
+          }
+        ],
+        "activation_challenges": [
+          {
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "purpose": "activation",
+            "otpHash": "12725c83c93c...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": 1794562504114,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          },
+          {
+            "userId": "ede29db4-be97-4ebe-829b-586d4198ae70",
+            "purpose": "activation",
+            "otpHash": "3b1a1a19f619...[REDACTED]",
+            "expiresAt": 1794563104114,
+            "usedAt": null,
+            "attempts": 1,
+            "lockedUntil": 0,
+            "lastSentAt": 1794562504114
+          },
+          {
+            "userId": "4b64037c-51a1-4951-ae42-00785a89691c",
+            "purpose": "activation",
+            "otpHash": "7345bca4f2b0...[REDACTED]",
+            "expiresAt": 1794564740114,
+            "usedAt": 1794564140114,
+            "attempts": 0,
+            "lockedUntil": 0,
+            "lastSentAt": 1794564140114
+          }
+        ],
+        "password_resets": [
+          {
+            "tokenHash": "8130337b1d84...[REDACTED]",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1794564080114,
+            "usedAt": 1794563180114
+          },
+          {
+            "tokenHash": "498035c923ae...[REDACTED]",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1794564080114,
+            "usedAt": 1794564140114
+          },
+          {
+            "tokenHash": "f3b678786042...[REDACTED]",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1794565040114,
+            "usedAt": 1794564140114
+          }
+        ],
+        "auth_sessions": [
+          {
+            "id": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1795167964114,
+            "revokedAt": 1794564140114,
+            "createdAt": 1794563164114
+          },
+          {
+            "id": "019f9124-b9fb-4079-a882-28508dbc2063",
+            "userId": "1ca930ff-f535-4831-b7d5-a928c0096e5c",
+            "expiresAt": 1795168940114,
+            "revokedAt": null,
+            "createdAt": 1794564140114
+          }
+        ],
+        "refresh_tokens": [
+          {
+            "tokenHash": "84e18741c685...[REDACTED]",
+            "sessionId": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "expiresAt": 1795167964114,
+            "usedAt": 1794563180114,
+            "createdAt": 1794563164114
+          },
+          {
+            "tokenHash": "d351a014ddc4...[REDACTED]",
+            "sessionId": "1f199686-abfd-4526-b994-f8ef6f8db370",
+            "expiresAt": 1795167964114,
+            "usedAt": null,
+            "createdAt": 1794563180114
+          },
+          {
+            "tokenHash": "bb2f52fc2ee4...[REDACTED]",
+            "sessionId": "019f9124-b9fb-4079-a882-28508dbc2063",
+            "expiresAt": 1795168940114,
+            "usedAt": null,
+            "createdAt": 1794564140114
+          }
+        ],
+        "auth_limits": [
+          {
+            "key": "f1a4d3a90f91...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "d93f1c3e71bc...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "89719adbb3d5...[REDACTED]",
+            "count": 5,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "85913c999f68...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "dc8721d63e6c...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "d839aef9d482...[REDACTED]",
+            "count": 5,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "562e6b401bd1...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "c9d26480d72c...[REDACTED]",
+            "count": 1,
+            "windowStart": 1794563180114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "375e55959cb9...[REDACTED]",
+            "count": 3,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "390b67885435...[REDACTED]",
+            "count": 3,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          },
+          {
+            "key": "2e5c4021ee45...[REDACTED]",
+            "count": 3,
+            "windowStart": 1794564140114,
+            "lockedUntil": 0
+          }
+        ]
+      }
+    }
+  ],
+  "emails": [
+    {
+      "to": "student@example.com",
+      "subject": "Kích hoạt tài khoản Bếp Nhà",
+      "text": "Mã kích hoạt của bạn: [OTP REDACTED]\nMã có hiệu lực 10 phút, tối đa 5 lần thử. Không chia sẻ mã này."
+    },
+    {
+      "to": "expired@example.com",
+      "subject": "Kích hoạt tài khoản Bếp Nhà",
+      "text": "Mã kích hoạt của bạn: [OTP REDACTED]\nMã có hiệu lực 10 phút, tối đa 5 lần thử. Không chia sẻ mã này."
+    },
+    {
+      "to": "student@example.com",
+      "subject": "Đặt lại mật khẩu Bếp Nhà",
+      "text": "Mở liên kết để đặt lại mật khẩu (hiệu lực 15 phút):\nhttp://localhost:5173/reset?token=[RESET TOKEN REDACTED]\nNếu không yêu cầu, bạn có thể bỏ qua email này."
+    },
+    {
+      "to": "student@example.com",
+      "subject": "Đặt lại mật khẩu Bếp Nhà",
+      "text": "Mở liên kết để đặt lại mật khẩu (hiệu lực 15 phút):\nhttp://localhost:5173/reset?token=[RESET TOKEN REDACTED]\nNếu không yêu cầu, bạn có thể bỏ qua email này."
+    },
+    {
+      "to": "student@example.com",
+      "subject": "Đặt lại mật khẩu Bếp Nhà",
+      "text": "Mở liên kết để đặt lại mật khẩu (hiệu lực 15 phút):\nhttp://localhost:5173/reset?token=[RESET TOKEN REDACTED]\nNếu không yêu cầu, bạn có thể bỏ qua email này."
+    },
+    {
+      "to": "student@example.com",
+      "subject": "Mật khẩu Bếp Nhà đã thay đổi",
+      "text": "Mật khẩu của bạn đã được đặt lại. Tất cả phiên đăng nhập cũ đã bị thu hồi. Nếu không thực hiện, hãy liên hệ người quản lý."
+    },
+    {
+      "to": "brute@example.com",
+      "subject": "Kích hoạt tài khoản Bếp Nhà",
+      "text": "Mã kích hoạt của bạn: [OTP REDACTED]\nMã có hiệu lực 10 phút, tối đa 5 lần thử. Không chia sẻ mã này."
+    }
+  ]
+}

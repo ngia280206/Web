@@ -1,0 +1,318 @@
+{
+  "title": "invalid refresh clears memory and redirects to login; network errors keep the session",
+  "status": "passed",
+  "environment": "Isolated Playwright server, sample accounts and file-mail fixture; not live Gmail/Supabase.",
+  "url": "http://localhost:5174/login?next=%2Fsession",
+  "storage": {
+    "localStorageKeys": [],
+    "sessionStorageKeys": []
+  },
+  "cookies": [
+    {
+      "name": "bep_refresh",
+      "value": "[REDACTED]",
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax",
+      "path": "/api/auth"
+    }
+  ],
+  "network": [
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/info",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"31-XXYF2KhDm71cd7uf64uc2XoFFTc\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "49",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "mode": "sqlite",
+          "demo": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/login",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {
+        "email": "e2e@example.com",
+        "password": "[REDACTED]",
+        "otp": "[REDACTED]",
+        "token": "[REDACTED]"
+      },
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"1f2-RET1QZBPBh0icF6TgQb+drwvPjc\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "498",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "accessToken": "[REDACTED]",
+          "expiresIn": 15,
+          "expiresAt": 1794562909000,
+          "user": {
+            "id": "e2e-user",
+            "email": "e2e@example.com",
+            "role": "viewer",
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/dishes/facets",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[REDACTED]",
+        "referer": "",
+        "accept-language": "en-US",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0",
+        "x-data-source": "sqlite",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"d3-bY+yGGnRZxre+N0281oAL1UgUNU\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "211",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": null
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/dishes?pageSize=12&q=&page=1",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "authorization": "[REDACTED]",
+        "referer": "",
+        "accept-language": "en-US",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0",
+        "x-data-source": "sqlite",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "etag": "W/\"7a8-hTKUnfhJ7+AZTZXjGl+1OBmUxy4\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "1960",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": null
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/info",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "accept-language": "en-US",
+        "sec-ch-ua-mobile": "?0"
+      },
+      "payload": null,
+      "responseHeaders": {
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "49",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "etag": "W/\"31-XXYF2KhDm71cd7uf64uc2XoFFTc\"",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "mode": "sqlite",
+          "demo": false
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/refresh",
+      "status": 200,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {},
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"1f2-HYWoHToLyhoywHQHO4sdYgyBaXI\"",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "498",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": {
+        "ok": true,
+        "data": {
+          "accessToken": "[REDACTED]",
+          "expiresIn": 15,
+          "expiresAt": 1794562909000,
+          "user": {
+            "id": "e2e-user",
+            "email": "e2e@example.com",
+            "role": "viewer",
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "url": "http://localhost:3101/api/auth/me",
+      "status": 401,
+      "requestHeaders": {
+        "accept": "*/*",
+        "accept-language": "en-US",
+        "cookie": "[REDACTED]",
+        "origin": "http://localhost:5174",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "authorization": "[REDACTED]",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\""
+      },
+      "payload": null,
+      "responseHeaders": {
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "65",
+        "content-type": "application/json",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true"
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "TOKEN_EXPIRED",
+          "message": "Expired"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/refresh",
+      "status": 401,
+      "requestHeaders": {
+        "accept": "*/*",
+        "accept-language": "en-US",
+        "cookie": "[REDACTED]",
+        "origin": "http://localhost:5174",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "content-type": "application/json",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\""
+      },
+      "payload": {},
+      "responseHeaders": {
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "65",
+        "content-type": "application/json",
+        "vary": "Origin",
+        "access-control-allow-credentials": "true"
+      },
+      "response": {
+        "ok": false,
+        "error": {
+          "code": "UNAUTHENTICATED",
+          "message": "Ended"
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "url": "http://localhost:3101/api/auth/refresh",
+      "status": 401,
+      "requestHeaders": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.8078.4 Safari/537.36",
+        "sec-ch-ua": "\"Not:A-Brand\";v=\"8\", \"Chromium\";v=\"156\", \"HeadlessChrome\";v=\"156\"",
+        "content-type": "application/json",
+        "sec-ch-ua-mobile": "?0",
+        "accept-language": "en-US"
+      },
+      "payload": {},
+      "responseHeaders": {
+        "cache-control": "no-store",
+        "etag": "W/\"81-LfDUU8ScAan1JtLZ2mkYTDmSNqg\"",
+        "www-authenticate": "Bearer",
+        "connection": "keep-alive",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-origin": "http://localhost:5174",
+        "content-length": "129",
+        "keep-alive": "timeout=5",
+        "date": "Fri, 13 Nov 2026 09:41:34 GMT",
+        "content-type": "application/json; charset=utf-8",
+        "vary": "Origin"
+      },
+      "response": null
+    }
+  ]
+}

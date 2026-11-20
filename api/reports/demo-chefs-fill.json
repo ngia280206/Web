@@ -1,0 +1,41 @@
+{
+  "mode": "commit",
+  "checkedAt": "2026-10-30T04:24:26.844Z",
+  "note": "Fictional demo chefs and assignments; these are not Kaggle authors or original recipe creators.",
+  "createdChefs": 8,
+  "assignedDishes": 13493,
+  "chefs": [
+    {
+      "id": "1",
+      "name": "Nguyễn Hoàng Lan (demo)"
+    },
+    {
+      "id": "2",
+      "name": "Trần Minh Khang (demo)"
+    },
+    {
+      "id": "3",
+      "name": "Lê Thanh Hải (demo)"
+    },
+    {
+      "id": "4",
+      "name": "Phạm Anh Tuấn (demo)"
+    },
+    {
+      "id": "5",
+      "name": "Võ Ngọc Linh (demo)"
+    },
+    {
+      "id": "6",
+      "name": "Đặng Gia Bảo (demo)"
+    },
+    {
+      "id": "7",
+      "name": "Bùi Quốc An (demo)"
+    },
+    {
+      "id": "8",
+      "name": "Huỳnh Thảo Vy (demo)"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "checkedAt": "2026-10-30T03:49:45.608Z",
+  "source": "Supabase cloud via local Express API",
+  "readOnly": true,
+  "checks": {
+    "numberedPages": true,
+    "loadMoreAndUrlRestore": true,
+    "infiniteScroll": true,
+    "realFullTextSearch": true,
+    "publicImageAndDetail": true,
+    "adminCombinedFilters": true
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "checkedAt": "2026-10-30T15:06:00.251Z",
+  "counts": {
+    "dishes": 13493,
+    "kaggle": 13493,
+    "chefs": 8,
+    "ingredients": 73940,
+    "categories": 14,
+    "images": 13463
+  },
+  "rpc": {
+    "sql": "SELECT public.catalog_search($1,$2::jsonb) AS result",
+    "options": {
+      "q": "chicken",
+      "page": 2,
+      "pageSize": 6,
+      "category": "",
+      "sort": "relevance",
+      "searchMode": "fts",
+      "scope": "name",
+      "available": "",
+      "chefId": "",
+      "hasImage": "",
+      "source": "kaggle"
+    },
+    "pagination": {
+      "page": 2,
+      "pageSize": 6,
+      "totalItems": 864,
+      "totalPages": 144,
+      "hasNextPage": true,
+      "hasPreviousPage": true
+    },
+    "search": {
+      "engine": "postgresql",
+      "appliedMode": "fts",
+      "requestedMode": "fts",
+      "fallbackApplied": false
+    },
+    "source": "supabase",
+    "rowsReturned": 6,
+    "firstRow": {
+      "id": 1284,
+      "name": "Chicken Under a Skillet with Lemon Pan Sauce",
+      "price": 45000,
+      "category": "Sốt & gia vị",
+      "chefId": 7,
+      "syntheticPrice": true
+    }
+  },
+  "sql": "SELECT id,name,price,category FROM public.dishes\nWHERE source='kaggle'\n  AND to_tsvector('simple',\"searchName\")\n      @@ websearch_to_tsquery('simple','chicken')\nORDER BY ts_rank(\"searchVector\",websearch_to_tsquery('simple','chicken')) DESC,id ASC\nLIMIT 6 OFFSET 6;",
+  "sqlMatchesRpc": true,
+  "plan": {
+    "executionMs": 5.245,
+    "returnedRows": 6,
+    "node": "Limit"
+  },
+  "bug": {
+    "environment": "Isolated PostgreSQL PGlite; production data was not modified",
+    "fixture": {
+      "name": "Demo chicken salad",
+      "price": 75000,
+      "syntheticPrice": true
+    },
+    "oldPredicate": "NOT \"syntheticPrice\" AND price >= 50000 AND price <= 80000",
+    "beforeCount": 0,
+    "afterCount": 1,
+    "afterRow": "regression-positive"
+  },
+  "scenarios": [
+    {
+      "mode": "pages",
+      "url": "http://localhost:5173/dishes?view=pages&pageSize=3&sort=price_asc&page=2",
+      "visibleCards": 3,
+      "uniqueIds": 3,
+      "documentRequestsBefore": 1,
+      "documentRequestsAfter": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "/dishes?view=pages&pageSize=3&sort=price_asc",
+          "type": "document",
+          "status": 200
+        }
+      ],
+      "csr": {
+        "emptyRoot": true,
+        "firstDishAbsent": true
+      }
+    },
+    {
+      "mode": "more",
+      "url": "http://localhost:5173/dishes?view=more&pageSize=3&sort=price_asc&page=2",
+      "visibleCards": 6,
+      "uniqueIds": 6,
+      "documentRequestsBefore": 1,
+      "documentRequestsAfter": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "/dishes?view=more&pageSize=3&sort=price_asc",
+          "type": "document",
+          "status": 200
+        }
+      ],
+      "csr": {
+        "emptyRoot": true,
+        "firstDishAbsent": true
+      }
+    },
+    {
+      "mode": "infinite",
+      "url": "http://localhost:5173/dishes?view=infinite&pageSize=3&sort=price_asc&page=3",
+      "visibleCards": 9,
+      "uniqueIds": 9,
+      "documentRequestsBefore": 1,
+      "documentRequestsAfter": 1,
+      "requests": [
+        {
+          "method": "GET",
+          "url": "/dishes?view=infinite&pageSize=3&sort=price_asc",
+          "type": "document",
+          "status": 200
+        }
+      ],
+      "csr": {
+        "emptyRoot": true,
+        "firstDishAbsent": true
+      }
+    }
+  ],
+  "apiExample": {
+    "ok": true,
+    "data": [
+      {
+        "id": 1284,
+        "name": "Chicken Under a Skillet with Lemon Pan Sauce",
+        "price": 45000,
+        "category": "Sốt & gia vị",
+        "chefId": 7,
+        "syntheticPrice": true
+      }
+    ],
+    "pagination": {
+      "page": 2,
+      "pageSize": 6,
+      "totalItems": 864,
+      "totalPages": 144,
+      "hasNextPage": true,
+      "hasPreviousPage": true
+    },
+    "search": {
+      "engine": "postgresql",
+      "appliedMode": "fts",
+      "requestedMode": "fts",
+      "fallbackApplied": false
+    },
+    "source": "supabase"
+  },
+  "apiActualArrayLength": 6
+}

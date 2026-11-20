@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 880" role="img" aria-label="Luồng login JWT 15 giây và refresh rotation">
+<defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9" fill="#795442"/></marker></defs>
+<rect width="1120" height="880" rx="12" fill="#f6f3eb"/>
+<g font-family="Segoe UI,Arial,sans-serif" font-size="17" fill="#292f25">
+<rect x="30" y="20" width="280" height="80" rx="9" fill="#dce4ca" stroke="#59634b"/>
+<text x="170" y="53" text-anchor="middle" font-weight="700">React CSR</text>
+<text x="170" y="78" text-anchor="middle" font-size="13">Access token trong memory</text>
+<line x1="170" y1="100" x2="170" y2="840" stroke="#b8b0a0" stroke-dasharray="5 6"/>
+<rect x="425" y="20" width="280" height="80" rx="9" fill="#dce4ca" stroke="#59634b"/>
+<text x="565" y="53" text-anchor="middle" font-weight="700">Express Auth / API</text>
+<text x="565" y="78" text-anchor="middle" font-size="13">JWT HS256, verify exp</text>
+<line x1="565" y1="100" x2="565" y2="840" stroke="#b8b0a0" stroke-dasharray="5 6"/>
+<rect x="825" y="20" width="280" height="80" rx="9" fill="#dce4ca" stroke="#59634b"/>
+<text x="965" y="53" text-anchor="middle" font-weight="700">Supabase bep_auth</text>
+<text x="965" y="78" text-anchor="middle" font-size="13">User / session / hash token</text>
+<line x1="965" y1="100" x2="965" y2="840" stroke="#b8b0a0" stroke-dasharray="5 6"/>
+<line x1="170" y1="155" x2="565" y2="155" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="143" text-anchor="middle" font-size="14">1. POST login: email, password, CAPTCHA</text>
+<line x1="565" y1="210" x2="965" y2="210" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="765" y="198" text-anchor="middle" font-size="14">2. Quota, hash password, active</text>
+<line x1="565" y1="280" x2="170" y2="280" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="268" text-anchor="middle" font-size="14">3. A1 (15s) + cookie HttpOnly R1</text>
+<line x1="170" y1="345" x2="565" y2="345" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="333" text-anchor="middle" font-size="14">4. API: Authorization Bearer A1</text>
+<line x1="565" y1="395" x2="965" y2="395" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="765" y="383" text-anchor="middle" font-size="14">5. Đọc user, role, session từ DB</text>
+<line x1="565" y1="450" x2="170" y2="450" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="438" text-anchor="middle" font-size="14">6. HTTP 200</text>
+<line x1="170" y1="545" x2="565" y2="545" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="533" text-anchor="middle" font-size="14">7. Gọi API bằng A1 đã quá exp</text>
+<line x1="565" y1="595" x2="170" y2="595" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="583" text-anchor="middle" font-size="14">8. 401 TOKEN_EXPIRED</text>
+<line x1="170" y1="645" x2="565" y2="645" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="633" text-anchor="middle" font-size="14">9. POST refresh, cookie R1</text>
+<line x1="565" y1="695" x2="965" y2="695" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="765" y="683" text-anchor="middle" font-size="14">10. Transaction R1.usedAt + tạo R2</text>
+<line x1="565" y1="745" x2="170" y2="745" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="733" text-anchor="middle" font-size="14">11. A2 (15s), cookie R2</text>
+<line x1="170" y1="795" x2="565" y2="795" stroke="#795442" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="367" y="783" text-anchor="middle" font-size="14">12. Retry Bearer A2 → 200</text>
+<text x="560" y="502" text-anchor="middle" font-weight="700" fill="#963d2c">Sau 15 giây: access token hết hạn</text>
+<text x="560" y="858" text-anchor="middle" font-size="14">Dùng lại R1 đã tiêu thụ: thu hồi cả session. Reset password: thu hồi tất cả phiên.</text>
+</g></svg>
