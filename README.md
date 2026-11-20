@@ -6,7 +6,9 @@ Không có EJS, `res.render()`, cookie `user_session` hoặc `method-override`.
 
 ## Chạy cục bộ
 
-Yêu cầu Node.js 22 trở lên.
+**Yêu cầu:** Node.js 22 trở lên.
+
+### 1. Cài đặt
 
 ```powershell
 cd D:\BLOCK07_Phat_trien_ung_dung_web_24KTPM2_CSR
@@ -14,7 +16,9 @@ npm install
 Copy-Item .env.example .env
 ```
 
-Điền trong `.env`:
+### 2. Cấu hình môi trường
+
+Điền các giá trị trong `.env`:
 
 ```dotenv
 SUPABASE_URL=https://your-project.supabase.co
@@ -26,19 +30,27 @@ APP_URL=http://localhost:3001
 PORT=3001
 ```
 
-Lấy URL và các key từ Supabase Dashboard. Service role key chỉ nằm ở backend.
-Sau đó:
+Lấy URL và các key từ Supabase Dashboard.
+
+> **Lưu ý:** Service role key chỉ nằm ở backend.
+
+### 3. Khởi chạy
 
 ```powershell
 npm start
 ```
 
-Mở http://localhost:3001. Bản SSR có thể tiếp tục chạy ở cổng 3000.
-`npm run dev` tự khởi động lại backend khi sửa file. Khi sửa frontend, tải lại trình duyệt.
+Mở [http://localhost:3001](http://localhost:3001). Bản SSR có thể tiếp tục chạy ở cổng `3000`.
+
+- `npm run dev`: tự khởi động lại backend khi sửa file.
+- Khi sửa frontend, tải lại trình duyệt.
+
 Nếu thiếu cấu hình, giao diện vẫn tải được nhưng API dữ liệu trả `503` với thông báo tạo `.env`;
 ứng dụng không thay dữ liệu thật bằng dữ liệu mẫu.
 
 ## Database và email xác nhận
+
+### Cấu hình database
 
 - Có thể dùng lại database của bản SSR bằng cùng `SUPABASE_URL` và key.
   Khi đó CRUD ở hai project thay đổi cùng dữ liệu. Muốn dữ liệu độc lập, dùng Supabase project riêng.
@@ -51,7 +63,9 @@ Nếu thiếu cấu hình, giao diện vẫn tải được nhưng API dữ li�
 - `prisma/schema.prisma` chỉ là bản mô tả schema để tham khảo; runtime truy vấn bằng Supabase JS trong `db.js`.
   Project CSR không cần Prisma Client hoặc lệnh `prisma db push`.
 
-Trong Supabase **Authentication → URL Configuration**, thêm Redirect URLs:
+### Email xác nhận và khôi phục mật khẩu
+
+Trong Supabase **Authentication → URL Configuration**, thêm **Redirect URLs**:
 
 ```text
 http://localhost:3001/auth/login
@@ -62,9 +76,13 @@ Luồng email dùng mẫu mặc định có `ConfirmationURL` của Supabase và
 Sau khi xác nhận/khôi phục, token trong URL fragment được đọc và xóa khỏi thanh địa chỉ.
 Nếu dùng email template tùy chỉnh trả `code` hoặc `token_hash`, cần chuyển lại template mặc định cho project này.
 
-Turnstile là tùy chọn: điền cả `TURNSTILE_SITE_KEY` và `TURNSTILE_SECRET_KEY` để bật CAPTCHA đăng ký.
-Nếu không dùng, để trống cả hai. Điền SMTP để gửi email mở khóa; khi chưa có SMTP, backend in link mở khóa ra console
-để thử cục bộ. Email xác nhận và email quên mật khẩu do Supabase gửi.
+### CAPTCHA và SMTP (tùy chọn)
+
+- **Turnstile:** điền cả `TURNSTILE_SITE_KEY` và `TURNSTILE_SECRET_KEY` để bật CAPTCHA đăng ký.
+  Nếu không dùng, để trống cả hai.
+- **SMTP:** điền cấu hình để gửi email mở khóa; khi chưa có SMTP, backend in link mở khóa ra console
+  để thử cục bộ.
+- Email xác nhận và email quên mật khẩu do Supabase gửi.
 
 ## Chức năng
 
@@ -111,19 +129,23 @@ có thể còn hiệu lực đến hạn của Supabase. Đổi mật khẩu yê
 
 ## Các API chính
 
-| Method | URL | Quyền |
-|---|---|---|
-| GET | `/api/health`, `/api/config` | Công khai |
-| GET | `/api/dishes?q=...`, `/api/dishes/:id` | Công khai |
-| POST | `/api/auth/register`, `/api/auth/login`, `/api/auth/refresh` | Công khai |
-| POST | `/api/auth/forgot-password`, `/api/auth/unlock` | Công khai |
-| GET | `/api/auth/me` | Đăng nhập |
-| POST | `/api/auth/logout`, `/api/auth/reset-password` | Token hợp lệ |
-| GET, POST | `/api/admin/dishes`, `/api/admin/chefs`, `/api/admin/ingredients` | Manager |
-| GET, PATCH, DELETE | `/api/admin/{resource}/:id` | Manager |
+| Phương thức | URL | Quyền |
+| --- | --- | --- |
+| `GET` | `/api/health`, `/api/config` | Công khai |
+| `GET` | `/api/dishes?q=...`, `/api/dishes/:id` | Công khai |
+| `POST` | `/api/auth/register`, `/api/auth/login`, `/api/auth/refresh` | Công khai |
+| `POST` | `/api/auth/forgot-password`, `/api/auth/unlock` | Công khai |
+| `GET` | `/api/auth/me` | Đăng nhập |
+| `POST` | `/api/auth/logout`, `/api/auth/reset-password` | Token hợp lệ |
+| `GET`, `POST` | `/api/admin/dishes`, `/api/admin/chefs`, `/api/admin/ingredients` | Manager |
+| `GET`, `PATCH`, `DELETE` | `/api/admin/{resource}/:id` | Manager |
 
-Thêm món bằng POST cần `name`, `price`, `available` (boolean); tùy chọn `description`, `category`, `imageUrl`,
-`chefId`, `ingredientIds` (mảng ID). PATCH hỗ trợ sửa một phần. API ghi chỉ nhận những trường được phép.
+Thêm món bằng `POST`:
+
+- **Bắt buộc:** `name`, `price`, `available` (boolean).
+- **Tùy chọn:** `description`, `category`, `imageUrl`, `chefId`, `ingredientIds` (mảng ID).
+
+`PATCH` hỗ trợ sửa một phần. API ghi chỉ nhận những trường được phép.
 
 ## Cấu trúc
 
@@ -156,12 +178,14 @@ nếu máy không có trình duyệt, cài bằng `npx playwright install chromi
 Ảnh kiểm tra ở `artifacts/desktop.png` và `artifacts/mobile.png` là dữ liệu kiểm thử.
 Kết nối Supabase, SMTP và CAPTCHA thật cần cấu hình `.env` và kiểm tra với tài khoản của bạn.
 
+## Lưu ý triển khai
+
 Các truy vấn món/nguyên liệu trong wrapper dùng nhiều request REST, chưa phải một transaction database.
 Bộ đếm sai mật khẩu và giới hạn request trong một process phù hợp cho bài học; khi chạy nhiều instance cần cơ chế
 đếm/khóa nguyên tử trong database và rate limit dùng chung.
 
-Tài liệu tham khảo: [Supabase getUser](https://supabase.com/docs/reference/javascript/auth-getuser),
-[refreshSession](https://supabase.com/docs/reference/javascript/auth-refreshsession),
-[resetPasswordForEmail](https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail).
-#   W e b  
- 
+## Tài liệu tham khảo
+
+- [Supabase getUser](https://supabase.com/docs/reference/javascript/auth-getuser)
+- [Supabase refreshSession](https://supabase.com/docs/reference/javascript/auth-refreshsession)
+- [Supabase resetPasswordForEmail](https://supabase.com/docs/reference/javascript/auth-resetpasswordforemail)
